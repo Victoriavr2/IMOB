@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>CHOICE IMOBILIÁRIA</title>
+  <title>Choice Imobiliária</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -49,23 +49,28 @@
         <ul>
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="about.html">Sobre nós</a></li>
-          <li><a href="category.html">Imóveis por Região</a></li>
+          </li><li class="dropdown">
+              <a href="category.html">
+                <span>Imóveis por Região</span> 
+                <i class="bi bi-chevron-down toggle-dropdown"></i>
+              </a>
+            <ul>
+              <li><a href="#">Centro</a></li>
+              <li><a href="#">Zona Norte</a></li>
+              <li><a href="#">Zona Sul</a></li>
+              <li><a href="#">Zona Leste</a></li>
+              <li><a href="#">Zona Oeste</a></li>
+            </ul>
+          </li>
+          
           <li><a href="blog-details.html">Blog Details</a></li>
           <li><a href="author-profile.html">Corretores</a></li>
           <li><a href="contact.html">Contato</a></li>
-          <li><a href="#">Redes Sociais</a></li>
-          <li class="dropdown"><a href="#"><span>Redes Sociais</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">Facebook</a></li>
-              <li><a href="#">WhatsApp</a></li>
-            </ul>
-          </li> 
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-            <a class="btn-getstarted" href="index.html#sobre_nos">Vamos lá!</a>
+            <a class="btn-getstarted" href="index.html#propriedades">Vamos lá!</a>
     </div>
   </header>
 
@@ -440,13 +445,20 @@
           <div class="footer-links-grid">
             <div class="row">
               <div class="col-6 col-md-4">
-                <h5>Empresa</h5>
+                <h5>Imoboliária</h5>
                 <ul class="list-unstyled">
                   <li><a href="#">Sobre nós</a></li>
                   <li><a href="#">Nosso time</a></li>
                   <li><a href="#">Careers</a></li>
                   <li><a href="#">Newsroom</a></li>
                 </ul>
+              <div class="col-6 col-md-4">
+                <h5>Contato</h5>
+                <ul class="list-unstyled">
+                  <p class="mt-4"><strong>Telefone:</strong> <span>+55 (11) 9 9309-9757</span></p>
+                  <p><strong>Email:</strong> <span>imobchoice.adm@gmail.com</span></p>
+                </ul>
+              </div>
               </div>
             </div>
           </div>
@@ -454,7 +466,7 @@
 
         <div class="col-lg-2">
           <div class="footer-cta">
-            <h5>Se conecte com a gente</h5>
+            <h5>Para mais informações</h5>
             <a href="contact.html" class="btn btn-outline">Clique Aqui!</a>
           </div>
         </div>
@@ -467,13 +479,13 @@
         <div class="row">
           <div class="col-12">
             <div class="footer-bottom-content">
-              <p class="mb-0">© <strong>CHOISE IMOBILIÁRIA</strong>. All rights reserved.</p>
+              <small><p class="mb-0">© <strong>Choise Imobiliária</strong>. All rights reserved.</p></small>
               <div class="credits">
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you've purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | <a href="https://bootstrapmade.com/tools/">DevTools</a>
+                <small>Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | <a href="https://bootstrapmade.com/tools/">DevTools</a></small> 
               </div>
             </div>
           </div>
