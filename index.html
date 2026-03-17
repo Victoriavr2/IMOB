@@ -196,6 +196,173 @@
 
     </section><!-- /Blog Hero Section -->
 
+    <!-- ABA DE OPÇÕES -->
+
+    <div class="container my-4">
+
+  <!-- LINHA PRINCIPAL -->
+  <div class="row g-2 align-items-center">
+
+    <div class="col-md-3">
+      <select class="form-control">
+        <option>Todas as Localizações</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select class="form-control">
+        <option>Todos os Tipos</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select class="form-control">
+        <option>Todos os Status</option>
+      </select>
+    </div>
+
+    <div class="col-md-3 text-end">
+      <button class="btn btn-primary w-100" data-bs-toggle="collapse" data-bs-target="#filtrosAvancados" id="btnToggle">
+        🔍 +
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FILTROS AVANÇADOS -->
+  <div class="collapse mt-3" id="filtrosAvancados">
+
+    <div class="row g-2">
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Min. Preço</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Max. Preço</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Min. Quartos</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Min. Banheiros</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Palavra-chave">
+      </div>
+
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="ID do imóvel">
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Min. Vagas</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Min. Área (m²)</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <select class="form-control">
+          <option>Terraço</option>
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- BOTÃO CARACTERÍSTICAS -->
+    <div class="mt-3">
+      <button class="btn btn-secondary w-100" data-bs-toggle="collapse" data-bs-target="#caracteristicas" id="btnCaracteristicas">
+        + Procure por características
+      </button>
+    </div>
+
+    <!-- CHECKBOXES -->
+    <div class="collapse mt-3" id="caracteristicas">
+      <div class="row">
+
+        <div class="col-md-3">
+          <label><input type="checkbox"> Academia</label><br>
+          <label><input type="checkbox"> Beach Tennis</label><br>
+          <label><input type="checkbox"> Bicicletário</label><br>
+          <label><input type="checkbox"> Brinquedoteca</label><br>
+          <label><input type="checkbox"> Churrasqueira</label><br>
+          <label><input type="checkbox"> Cinema</label><br>
+          <label><input type="checkbox"> Coworking</label><br>
+        </div>
+
+        <div class="col-md-3">
+          <label><input type="checkbox"> Cozinha Comunitária</label><br>
+          <label><input type="checkbox"> Deck</label><br>
+          <label><input type="checkbox"> Espaço Beleza</label><br>
+          <label><input type="checkbox"> Espaço Massagem</label><br>
+          <label><input type="checkbox"> Espaço Pet</label><br>
+          <label><input type="checkbox"> Fitness</label><br>
+          <label><input type="checkbox"> Home Office</label><br>
+        </div>
+
+        <div class="col-md-3">
+          <label><input type="checkbox"> Horta</label><br>
+          <label><input type="checkbox"> Lavanderia Coletiva</label><br>
+          <label><input type="checkbox"> Mini Golf</label><br>
+          <label><input type="checkbox"> Mini Quadra</label><br>
+          <label><input type="checkbox"> Parque Infantil</label><br>
+          <label><input type="checkbox"> Pet Care</label><br>
+          <label><input type="checkbox"> Pet Place</label><br>
+        </div>
+
+        <div class="col-md-3">
+          <label><input type="checkbox"> Piscina</label><br>
+          <label><input type="checkbox"> Piscina Adulto</label><br>
+          <label><input type="checkbox"> Piscina Infantil</label><br>
+          <label><input type="checkbox"> Playground</label><br>
+          <label><input type="checkbox"> Playkids</label><br>
+          <label><input type="checkbox"> Praça</label><br>
+          <label><input type="checkbox"> Prainha</label><br>
+        </div>
+
+        <div class="col-md-3 mt-2">
+          <label><input type="checkbox"> Quadras</label><br>
+          <label><input type="checkbox"> Redeiro</label><br>
+          <label><input type="checkbox"> Sala de Dança</label><br>
+          <label><input type="checkbox"> Sala de Reunião</label><br>
+          <label><input type="checkbox"> Salão de Festas</label><br>
+          <label><input type="checkbox"> Salão de Jogos</label><br>
+          <label><input type="checkbox"> Salão Gourmet</label><br>
+        </div>
+
+        <div class="col-md-3 mt-2">
+          <label><input type="checkbox"> Sauna</label><br>
+          <label><input type="checkbox"> Solário</label><br>
+          <label><input type="checkbox"> Solarium</label><br>
+          <label><input type="checkbox"> Sport Bar</label><br>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
     <!-- Featured Posts Section -->
     <section id="featured-posts" class="featured-posts section">
 
@@ -557,7 +724,32 @@
    target="_blank">
    <i class="bi bi-whatsapp"></i>
 </a>
+<!-- CAIXA DE OPÇÕES  -->
+<script>
+  const btn = document.getElementById("btnToggle");
+  const collapse = document.getElementById("filtrosAvancados");
 
+  collapse.addEventListener("show.bs.collapse", () => {
+    btn.innerHTML = "🔍 -";
+  });
+
+  collapse.addEventListener("hide.bs.collapse", () => {
+    btn.innerHTML = "🔍 +";
+  });
+
+  const btnCarac = document.getElementById("btnCaracteristicas");
+  const carac = document.getElementById("caracteristicas");
+
+  carac.addEventListener("show.bs.collapse", () => {
+    btnCarac.innerHTML = "- Procure por características";
+  });
+
+  carac.addEventListener("hide.bs.collapse", () => {
+    btnCarac.innerHTML = "+ Procure por características";
+  });
+</script>
+
+      
 </body>
 
 </html>
