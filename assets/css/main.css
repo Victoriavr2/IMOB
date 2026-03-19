@@ -23,7 +23,7 @@
 :root { 
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #301f11; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #614b34; /* Color for headings, subheadings and title throughout the website */
+  --heading-color: #caa45f; /* Color for headings, subheadings and title throughout the website */
   --accent-color: #956d36; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
@@ -4821,4 +4821,24 @@ section,
 .whatsapp-float:hover{
   transform: scale(1.1);
   transition: 0.3s;
+}
+
+.btn-primary{
+  background-color: #caa45f; /* dourado */
+  border: none;
+}
+
+.btn-primary:hover{
+  background-color: #b8934d;
+}
+
+.form-control{
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.container.my-4{
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
 }
