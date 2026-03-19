@@ -304,6 +304,36 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+    <a href="https://wa.me/5511993099757?text=Olá!%20Gostaria%20de%20mais%20informações." 
+   class="whatsapp-float" 
+   target="_blank">
+   <i class="bi bi-whatsapp"></i>
+</a>
+<!-- CAIXA DE OPÇÕES  -->
+<script>
+  const btn = document.getElementById("btnToggle");
+  const collapse = document.getElementById("filtrosAvancados");
+
+  collapse.addEventListener("show.bs.collapse", () => {
+    btn.innerHTML = "🔍 -";
+  });
+
+  collapse.addEventListener("hide.bs.collapse", () => {
+    btn.innerHTML = "🔍 +";
+  });
+
+  const btnCarac = document.getElementById("btnCaracteristicas");
+  const carac = document.getElementById("caracteristicas");
+
+  carac.addEventListener("show.bs.collapse", () => {
+    btnCarac.innerHTML = "- Procure por características";
+  });
+
+  carac.addEventListener("hide.bs.collapse", () => {
+    btnCarac.innerHTML = "+ Procure por características";
+  });
+</script>
+  
 </body>
 
 </html>
