@@ -4273,12 +4273,16 @@ section,
   gap: 30px;
 }
 
-.contact .map-container { 
-  width: 100%; 
-  height: 280px; 
-  border-radius: 15px; 
-  overflow: hidden; 
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); 
+.map-container {
+  width: 100%;
+  height: 280px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
 }
 
 .contact .form-container {
