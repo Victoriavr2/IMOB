@@ -204,20 +204,41 @@
   <div class="row g-2 align-items-center">
 
     <div class="col-md-3">
-      <select class="form-control">
-        <option>Todas as Localizações</option>
+      <select class="form-control" id="localizacao">
+        <option value="">Todas as Localizações</option>
+        <option value="barueri">Barueri</option>
+        <option value="cotia">Cotia</option>
+        <option value="cajamar">Cajamar</option>        
+        <option value="itapevi">Itapevi</option>        
+        <option value="jandira">Jandira</option>        
+        <option value="osasco">Osasco</option>
+        <option value="sao paulo">São Paulo</option>
+        <option value="santana de parnaiba">Santana de Parnaíba</option>
       </select>
     </div>
 
     <div class="col-md-3">
-      <select class="form-control">
-        <option>Todos os Tipos</option>
+      <select class="form-control" id="tipos">
+        <option value="">Todas os Tipos</option>
+        <option value="apartamento">Apartamento</option>
+        <option value="barracao">Barracão</option>
+        <option value="casa">Casa</option>        
+        <option value="deposito">Depósito</option>        
+        <option value="galpao">Galpão</option>        
+        <option value="terreno">Terreno</option>
       </select>
     </div>
 
     <div class="col-md-3">
-      <select class="form-control">
-        <option>Todos os Status</option>
+      <select class="form-control" id="status">
+        <option value="">Todas os Status</option>
+        <option value="aluguel">Aluguel</option>
+        <option value="breve lancamento">Breve lançamento</option>
+        <option value="em obras">Em Obras</option>        
+        <option value="lancamento">Lançamento</option>        
+        <option value="locacao">Locação</option>        
+        <option value="pronto para morar">Pronto para Morar</option>        
+        <option value="venda">Venda</option>
       </select>
     </div>
 
@@ -235,27 +256,65 @@
     <div class="row g-2">
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Min. Preço</option>
-        </select>
+        <select class="form-control" id="minPreco">
+        <option value="">Min. Preço</option>
+        <option value="130000">R$ 130.000</option>
+        <option value="140000">R$ 140.000</option>
+        <option value="150000">R$ 150.000</option>        
+        <option value="160000">R$ 160.000</option>        
+        <option value="170000">R$ 170.000</option>        
+        <option value="180000">R$ 180.000</option>
+        <option value="190000">R$ 190.000</option>
+        <option value="200000">R$ 200.000</option>
+        <option value="250000">R$ 250.000</option>
+        <option value="300000">R$ 300.000</option>
+      </select>
       </div>
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Max. Preço</option>
-        </select>
+        <select class="form-control" id="mAXPreco">
+        <option value="">Máx. Preço</option>
+        <option value="400000">R$ 400.000</option>
+        <option value="500000">R$ 500.000</option>
+        <option value="600000">R$ 600.000</option>        
+        <option value="700000">R$ 700.000</option>        
+        <option value="800000">R$ 800.000</option>        
+        <option value="900000">R$ 900.000</option>
+        <option value="1000000">R$ 1.000.000</option>
+        <option value="2000000">R$ 2.000.000</option>
+      </select>
       </div>
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Min. Quartos</option>
-        </select>
+        <select class="form-control" id="minQuarto">
+        <option value="">Min. Quarto</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>        
+        <option value="4">4</option>        
+        <option value="5">5</option>        
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
       </div>
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Min. Banheiros</option>
-        </select>
+        <select class="form-control" id="minBanheiros">
+        <option value="">Min. Banheiros</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>        
+        <option value="4">4</option>        
+        <option value="5">5</option>        
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
       </div>
 
       <div class="col-md-3">
@@ -267,15 +326,27 @@
       </div>
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Min. Vagas</option>
-        </select>
+        <select class="form-control" id="minVagas">
+        <option value="">Min. Vagas</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>        
+        <option value="4">4</option>        
+        <option value="5">5</option>        
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
       </div>
 
       <div class="col-md-3">
-        <select class="form-control">
-          <option>Min. Área (m²)</option>
-        </select>
+        <input type="text" class="form-control" placeholder="Min. Área (m²)">
+      </div>
+
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Máx. Área (m²)">
       </div>
 
       <div class="col-md-3">
@@ -285,7 +356,12 @@
           <option>Não</option>
         </select>
       </div>
-
+      
+      <div class="mt-3">
+        <button class="btn btn-primary w-100" onclick="filtrarImoveis()">
+          Buscar imóveis
+        </button>
+      </div>
     </div>
 
     <!-- BOTÃO CARACTERÍSTICAS -->
@@ -748,6 +824,33 @@
   });
 </script>
 
+<!-- SEU SCRIPT -->
+<script>
+function filtrarImoveis() {
+
+  const localizacao = document.getElementById("localizacao").value;
+  const tipo = document.getElementById("tipo").value;
+  const status = document.getElementById("status").value;
+
+  const imoveis = document.querySelectorAll(".imovel");
+
+  imoveis.forEach(imovel => {
+
+    const loc = imovel.getAttribute("data-localizacao");
+    const tip = imovel.getAttribute("data-tipo");
+    const stat = imovel.getAttribute("data-status");
+
+    let mostrar = true;
+
+    if(localizacao && loc !== localizacao) mostrar = false;
+    if(tipo && tip !== tipo) mostrar = false;
+    if(status && stat !== status) mostrar = false;
+
+    imovel.style.display = mostrar ? "block" : "none";
+
+  });
+}
+</script>
       
 </body>
 
