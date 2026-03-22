@@ -113,29 +113,6 @@
               <div class="row gy-5" id="lista-imoveis">      
                 
                 <!-- Firebase vai colocar os imóveis aqui -->
-                <script type="module">
-                  // Import the functions you need from the SDKs you need
-                  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-                  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
-                  // TODO: Add SDKs for Firebase products that you want to use
-                  // https://firebase.google.com/docs/web/setup#available-libraries
-                  // Your web app's Firebase configuration
-                  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-                  const firebaseConfig = {
-                    apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-                    authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-                    projectId: "imobiliaria-site-d0849",
-                    storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
-                    messagingSenderId: "965962893487",
-                    appId: "1:965962893487:web:1ed40e322fecd603526c5a",
-                    measurementId: "G-PZM7LW2HT2"
-                  };
-                  // Initialize Firebase
-                  
-                  const app = initializeApp(firebaseConfig);
-                  const analytics = getAnalytics(app);
-                </script>
-
 
               </div><!-- End blog posts list -->
 
@@ -293,6 +270,70 @@
   });
 </script>
 
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// CONFIG
+const firebaseConfig = {
+  apiKey: "SUA API KEY",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849",
+  storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
+  messagingSenderId: "965962893487",
+  appId: "1:965962893487:web:1ed40e322fecd603526c5a"
+};
+
+// INICIAR
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🔥 BUSCAR IMÓVEIS
+async function carregarImoveis() {
+
+  const querySnapshot = await getDocs(collection(db, "imoveis"));
+
+  const container = document.getElementById("lista-imoveis");
+
+  querySnapshot.forEach((doc) => {
+    const imovel = doc.data();
+
+    const html = `
+      <div class="col-lg-6">
+        <article>
+
+          <div class="post-img">
+            <img src="${imovel.Imagens[0]}" class="img-fluid">
+          </div>
+
+          <div class="meta-top">
+            <ul>
+              <li>${imovel.Status}</li>
+              <li><i class="bi bi-dot"></i> ${imovel.Cidade}</li>
+            </ul>
+          </div>
+
+          <h2 class="title">
+            ${imovel.Título}
+          </h2>
+
+          <p>${imovel.Descrição}</p>
+
+          <strong>R$ ${imovel.Preço}</strong>
+
+        </article>
+      </div>
+    `;
+
+    container.innerHTML += html;
+  });
+}
+
+carregarImoveis();
+
+</script>
+  
 </body>
 
 </html>
