@@ -1,0 +1,40 @@
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const db = getFirestore(app);
+
+window.salvar = async function() {
+
+  await addDoc(collection(db, "imoveis"), {
+    Título: document.getElementById("titulo").value,
+    Cidade: document.getElementById("cidade").value,
+    Preço: Number(document.getElementById("preco").value),
+    Dorms: Number(document.getElementById("dorms").value),
+    Vaga: Number(document.getElementById("vaga").value),
+    Área: Number(document.getElementById("area").value),
+    Descrição: document.getElementById("descricao").value,
+    Imagens: [document.getElementById("imagem").value],
+    Status: "venda"
+  });
+
+  alert("Imóvel cadastrado!");
+}
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849"
+};
+
+const app = initializeApp(firebaseConfig);
