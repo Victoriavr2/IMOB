@@ -1,17 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+</head>
+
+<body>
+
+<h2>Painel - Cadastrar Imóvel</h2>
+
+<input id="titulo" placeholder="Título"><br>
+<input id="cidade" placeholder="Cidade"><br>
+<input id="preco" type="number" placeholder="Preço"><br>
+<input id="dorms" type="number" placeholder="Dorms"><br>
+<input id="vaga" type="number" placeholder="Vagas"><br>
+<input id="area" type="number" placeholder="Área"><br>
+
+<textarea id="descricao" placeholder="Descrição"></textarea><br>
+
+<input id="imagem" placeholder="URL da imagem"><br><br>
+
+<button onclick="salvar()">Cadastrar</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-const auth = getAuth();
+// CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849"
+};
 
+// INICIAR
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// PROTEGER PÁGINA
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
   }
 });
 
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
-const db = getFirestore(app);
-
+// SALVAR
 window.salvar = async function() {
 
   await addDoc(collection(db, "imoveis"), {
@@ -29,12 +65,7 @@ window.salvar = async function() {
   alert("Imóvel cadastrado!");
 }
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+</script>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849"
-};
-
-const app = initializeApp(firebaseConfig);
+</body>
+</html>
