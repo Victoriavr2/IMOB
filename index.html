@@ -55,11 +55,12 @@
                 <i class="bi bi-chevron-down toggle-dropdown"></i>
               </a>
             <ul>
-              <li><a href="#">Centro</a></li>
-              <li><a href="#">Zona Norte</a></li>
-              <li><a href="#">Zona Sul</a></li>
-              <li><a href="#">Zona Leste</a></li>
-              <li><a href="#">Zona Oeste</a></li>
+              <li><a href="category.html">Barueri</a></li>
+              <li><a href="category.html">Cajamar</a></li>
+              <li><a href="category.html">Cotia</a></li>
+              <li><a href="category.html">Jandira</a></li>
+              <li><a href="category.html">Itapevi</a></li>
+              <li><a href="category.html">Santana de Parnaíba</a></li>
             </ul>
           </li>
           
@@ -372,6 +373,7 @@
           Buscar imóveis
         </button>
       </div>
+      <div class="row" id="lista-imoveis"></div>
     </div>
 
     <!-- BOTÃO CARACTERÍSTICAS -->
@@ -883,30 +885,79 @@
 
 <!-- SEU SCRIPT -->
 <script>
-function filtrarImoveis() {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// FUNÇÃO FILTRAR
+window.filtrarImoveis = async function() {
 
   const localizacao = document.getElementById("localizacao").value;
-  const tipo = document.getElementById("tipo").value;
+  const tipo = document.getElementById("tipos").value;
   const status = document.getElementById("status").value;
 
-  const imoveis = document.querySelectorAll(".imovel");
+  const minPreco = document.getElementById("minPreco").value;
+  const maxPreco = document.getElementById("mAXPreco").value;
 
-  imoveis.forEach(imovel => {
+  const container = document.getElementById("lista-imoveis");
+  container.innerHTML = ""; // limpa tela
 
-    const loc = imovel.getAttribute("data-localizacao");
-    const tip = imovel.getAttribute("data-tipo");
-    const stat = imovel.getAttribute("data-status");
+  const querySnapshot = await getDocs(collection(db, "imoveis"));
+
+  querySnapshot.forEach((doc) => {
+
+    const imovel = doc.data();
 
     let mostrar = true;
 
-    if(localizacao && loc !== localizacao) mostrar = false;
-    if(tipo && tip !== tipo) mostrar = false;
-    if(status && stat !== status) mostrar = false;
+    if (localizacao && imovel.regiao !== localizacao) mostrar = false;
+    if (tipo && imovel.tipo !== tipo) mostrar = false;
+    if (status && imovel.status !== status) mostrar = false;
 
-    imovel.style.display = mostrar ? "block" : "none";
+    if (minPreco && imovel.preco < Number(minPreco)) mostrar = false;
+    if (maxPreco && imovel.preco > Number(maxPreco)) mostrar = false;
+
+    if (mostrar) {
+
+      const html = `
+        <div class="col-lg-4 imovel">
+          <div class="card">
+
+            <img src="${imovel.imagens[0]}" class="card-img-top">
+
+            <div class="card-body">
+              <h5>${imovel.titulo}</h5>
+              <p>${imovel.cidade}</p>
+              <strong>R$ ${imovel.preco}</strong>
+
+              <br><br>
+
+              <a href="blog-details.html?id=${doc.id}" class="btn btn-primary">
+                Ver imóvel
+              </a>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      container.innerHTML += html;
+    }
 
   });
+
 }
+
+</script>
 </script>
       
 </body>
