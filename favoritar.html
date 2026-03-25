@@ -1,22 +1,88 @@
-import { getDocs, collection } from "firebase/firestore";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favoritos - Choice Imobiliária</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <style>
+    .card { margin: 10px; }
+    .card img { width: 100%; height: auto; }
+  </style>
+</head>
+<body>
 
-const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+  <div class="container">
+    <h1 class="my-4">Meus Favoritos</h1>
+    <div class="row" id="lista">
+      <!-- Aqui os imóveis favoritos vão aparecer -->
+    </div>
+  </div>
 
-async function carregarFavoritos() {
+  <script type="module">
+    // 1️⃣ CONFIGURAÇÃO FIREBASE
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  const snapshot = await getDocs(collection(db, "imoveis"));
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_AUTH_DOMAIN",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_STORAGE_BUCKET",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID"
+    };
 
-  snapshot.forEach(doc => {
-    const imovel = doc.data();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    if (favoritos.includes(doc.id)) {
+    // 2️⃣ PEGAR FAVORITOS DO LOCALSTORAGE
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
-      document.getElementById("lista").innerHTML += `
-        <div>
-          <h3>${imovel.titulo}</h3>
-          <img src="${imovel.imagens[0]}" width="200">
-        </div>
-      `;
+    // 3️⃣ CARREGAR IMÓVEIS DO FIRESTORE
+    async function carregarFavoritos() {
+      const snapshot = await getDocs(collection(db, "imoveis"));
+      const listaDiv = document.getElementById("lista");
+
+      // Limpa antes de inserir
+      listaDiv.innerHTML = "";
+
+      snapshot.forEach(doc => {
+        const imovel = doc.data();
+        const id = doc.id;
+
+        if (favoritos.includes(id)) {
+          listaDiv.innerHTML += `
+            <div class="col-md-4">
+              <div class="card">
+                <img src="${imovel.imagens[0]}" class="card-img-top" alt="${imovel.titulo}">
+                <div class="card-body">
+                  <h5 class="card-title">${imovel.titulo}</h5>
+                  <p class="card-text">${imovel.cidade} - ${imovel.tipo}</p>
+                  <button class="btn btn-danger btn-remover" data-id="${id}">Remover</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      // Adiciona evento de remover
+      document.querySelectorAll(".btn-remover").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.id;
+          let lista = JSON.parse(localStorage.getItem("favoritos")) || [];
+          lista = lista.filter(i => i !== id);
+          localStorage.setItem("favoritos", JSON.stringify(lista));
+          carregarFavoritos(); // Atualiza a lista
+        });
+      });
     }
-  });
-}
+
+    carregarFavoritos();
+  </script>
+
+</body>
+</html>
