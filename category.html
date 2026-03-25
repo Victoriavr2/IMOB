@@ -280,7 +280,7 @@ console.log("Firebase rodando");
 
 // CONFIG
 const firebaseConfig = {
-  apiKey: "SUA API KEY",
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
   authDomain: "imobiliaria-site-d0849.firebaseapp.com",
   projectId: "imobiliaria-site-d0849",
   storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
@@ -308,32 +308,32 @@ async function carregarImoveis() {
     const imovel = doc.data();
 
     // 🔥 FILTRO POR REGIÃO
-    if (!regiaoFiltro || imovel.Regiao === regiaoFiltro) {
+    if (!regiaoFiltro || imovel.regiao === regiaoFiltro) {
 
       const html = `
         <div class="col-lg-6">
           <article>
 
             <div class="post-img">
-              <img src="${imovel.Imagens[0]}" class="img-fluid">
+              <img src="${imovel.imagens[0]}" class="img-fluid">
             </div>
 
             <div class="meta-top">
               <ul>
-                <li>${imovel.Status}</li>
-                <li><i class="bi bi-dot"></i> ${imovel.Cidade}</li>
+                <li>${imovel.status}</li>
+                <li><i class="bi bi-dot"></i> ${imovel.cidade}</li>
               </ul>
             </div>
 
             <h2 class="title">  
               <a href="blog-details.html?id=${doc.id}">
-                ${imovel.Título}
+                ${imovel.titulo}
               </a> 
             </h2>
 
-            <p>${imovel.Descrição}</p>
+            <p>${imovel.descricao}</p>
 
-            <strong>R$ ${imovel.Preço}</strong>
+            <strong>R$ ${imovel.preco}</strong>
 
           </article>
         </div>
