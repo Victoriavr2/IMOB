@@ -879,84 +879,80 @@
   carac.addEventListener("hide.bs.collapse", () => {
     btnCarac.innerHTML = "+ Procure por características";
   });
+
 </script>
+<!-- SEU SCRIPT FIREBASE E FILTROS -->
+  
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-<!-- SEU SCRIPT -->
-<script>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+  // CONFIGURAÇÃO DO FIREBASE
+  const firebaseConfig = {
+    apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+    authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+    projectId: "imobiliaria-site-d0849"
+  };
 
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849"
-};
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  // FUNÇÃO PARA FILTRAR IMÓVEIS
+  window.filtrarImoveis = async function() {
+    const localizacao = document.getElementById("localizacao").value;
+    const tipo = document.getElementById("tipos").value;
+    const status = document.getElementById("status").value;
 
-// FUNÇÃO FILTRAR
-window.filtrarImoveis = async function() {
+    const minPreco = document.getElementById("minPreco").value;
+    const maxPreco = document.getElementById("maxPreco").value;
 
-  const localizacao = document.getElementById("localizacao").value;
-  const tipo = document.getElementById("tipos").value;
-  const status = document.getElementById("status").value;
+    const container = document.getElementById("lista-imoveis");
+    container.innerHTML = ""; // limpa a tela
 
-  const minPreco = document.getElementById("minPreco").value;
-  const maxPreco = document.getElementById("mAXPreco").value;
+    try {
+      const querySnapshot = await getDocs(collection(db, "imoveis"));
 
-  const container = document.getElementById("lista-imoveis");
-  container.innerHTML = ""; // limpa tela
+      querySnapshot.forEach((doc) => {
+        const imovel = doc.data();
+        let mostrar = true;
 
-  const querySnapshot = await getDocs(collection(db, "imoveis"));
+        // FILTROS
+        if (localizacao && imovel.regiao !== localizacao) mostrar = false;
+        if (tipo && imovel.tipo !== tipo) mostrar = false;
+        if (status && imovel.status !== status) mostrar = false;
 
-  querySnapshot.forEach((doc) => {
+        if (minPreco && imovel.preco < Number(minPreco)) mostrar = false;
+        if (maxPreco && imovel.preco > Number(maxPreco)) mostrar = false;
 
-    const imovel = doc.data();
-
-    let mostrar = true;
-
-    if (localizacao && imovel.regiao !== localizacao) mostrar = false;
-    if (tipo && imovel.tipo !== tipo) mostrar = false;
-    if (status && imovel.status !== status) mostrar = false;
-
-    if (minPreco && imovel.preco < Number(minPreco)) mostrar = false;
-    if (maxPreco && imovel.preco > Number(maxPreco)) mostrar = false;
-
-    if (mostrar) {
-
-      const html = `
-        <div class="col-lg-4 imovel">
-          <div class="card">
-
-            <img src="${imovel.imagens[0]}" class="card-img-top">
-
-            <div class="card-body">
-              <h5>${imovel.titulo}</h5>
-              <p>${imovel.cidade}</p>
-              <strong>R$ ${imovel.preco}</strong>
-
-              <br><br>
-
-              <a href="blog-details.html?id=${doc.id}" class="btn btn-primary">
-                Ver imóvel
-              </a>
+        // Se passar pelos filtros, renderiza
+        if (mostrar) {
+          const div = document.createElement("div");
+          div.classList.add("col-md-4", "mb-4");
+          div.innerHTML = `
+            <div class="card">
+              <img src="${imovel.imagem}" class="card-img-top" alt="${imovel.titulo}">
+              <div class="card-body">
+                <h5 class="card-title">${imovel.titulo}</h5>
+                <p class="card-text">${imovel.metros} • ${imovel.regiao} / ${imovel.estado}</p>
+                <p class="card-text">${imovel.descricao}</p>
+                <a href="category.html" class="btn btn-primary">Ver imóvel</a>
+              </div>
             </div>
+          `;
+          container.appendChild(div);
+        }
+      });
 
-          </div>
-        </div>
-      `;
-
-      container.innerHTML += html;
+      if (container.innerHTML === "") {
+        container.innerHTML = `<p class="text-center mt-3">Nenhum imóvel encontrado.</p>`;
+      }
+    } catch (error) {
+      console.error("Erro ao buscar imóveis:", error);
+      container.innerHTML = `<p class="text-center mt-3 text-danger">Erro ao carregar imóveis.</p>`;
     }
-
-  });
-
-}
-
+  };
 </script>
-</script>
+
       
 </body>
 
