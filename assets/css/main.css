@@ -3761,12 +3761,6 @@ section,
   border: 2px solid var(--accent-color);
 }
 
-.call-to-action {
-  padding: 0; /* tira aquele espaço interno */
-  height: 300px; /* você pode ajustar: 250px, 400px, etc */
-  position: relative;
-  overflow: hidden;
-}
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
