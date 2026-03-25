@@ -1,1 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Choice Imobiliária</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
 
+  <!-- Favicons -->
+  <link href="assets/img/choice simbolo dentro site.png" rel="icon">
+  <link href="assets/img/choice simbolo dentro site.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Story
+  * Template URL: https://bootstrapmade.com/story-bootstrap-blog-template/
+  * Updated: Aug 11 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+<body class="comparar-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/choice simbolo dentro site.png" alt="Logo Choice" class="img-fluid" style="max-height: 100px;">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">Sobre nós</a></li>
+          </li><li class="dropdown">
+              <a href="category.html">
+                <span>Imóveis por Região</span> 
+                <i class="bi bi-chevron-down toggle-dropdown"></i>
+              </a>
+            <ul>
+              <li><a href="category.html">Barueri</a></li>
+              <li><a href="category.html">Cajamar</a></li>
+              <li><a href="category.html">Cotia</a></li>
+              <li><a href="category.html">Jandira</a></li>
+              <li><a href="category.html">Itapevi</a></li>
+              <li><a href="category.html">Santana de Parnaíba</a></li>
+            </ul>
+          </li>
+          <li><a href="author-profile.html">Corretores</a></li>
+          <li><a href="contact.html">Contato</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+            <a class="btn-getstarted" href="#imoveis">Vamos lá!</a>
+    </div>
+  </header>
+
+ <div class="page-title">
+      <div class="heading">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-8">
+              <h1 class="heading-title">Comparar Imóveis</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="breadcrumbs">
+        <div class="container">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Comparar</li>
+          </ol>
+        </div>
+      </nav>
+   </div>
+   <!-- MAIN -->
+<main style="margin-top:120px;">
+
+<button class="btn-voltar" onclick="window.history.back()">← Voltar</button>
+
+<div class="container">
+  <div class="tabela-comparacao">
+    <table>
+      <thead>
+        <tr id="topo"></tr>
+      </thead>
+      <tbody id="tabela"></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+  
+  <!-- CSS -->
+  <style>
+    body {
+      background: #f5f7fa;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .tabela-comparacao {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      text-align: center;
+    }
+
+    th {
+      background: #f8f9fa;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    th img {
+      width: 150px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    td {
+      padding: 12px;
+      border-top: 1px solid #eee;
+    }
+
+    td:first-child {
+      font-weight: bold;
+      text-align: left;
+      background: #fafafa;
+    }
+
+    .check {
+      color: green;
+      font-size: 18px;
+    }
+
+    .no-check {
+      color: red;
+      font-size: 18px;
+    }
+
+    .btn-voltar {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-voltar:hover {
+      background: #0056b3;
+    }
+  </style>
+
+<!-- FOOTER -->
+<footer id="footer" class="footer position-relative light-background">
+
+    <div class="container">
+      <div class="row gy-5">
+
+        <div class="col-lg-4">
+          <div class="footer-brand">
+            <a href="index.html" class="logo d-flex align-items-center mb-3">
+              <span class="sitename">Choice Imobiliária</span>
+            </a>
+            <p class="tagline">Choice, sua melhor escolha!</p>
+
+            <div class="social-links mt-4">
+              <a href="https://www.facebook.com/share/1bP3SdFWno/?mibextid=wwXIfr" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.instagram.com/imobiliariachoice?igsh=MWpzZHczM2FpMmx3MA%3D%3D&utm_source=qr" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="footer-links-grid">
+            <div class="row">
+              <div class="col-6 col-md-4">
+                <h5>Imobiliária</h5>
+                <ul class="list-unstyled">
+                  <li><a href="about.html">Sobre nós</a></li>
+                  <li><a href="author-profile.html">Nosso time</a></li>
+                  <li><a href="category.html">Imóveis</a></li>
+                </ul>
+              </div>
+              <div class="col-6 col-md-4">
+                <h5>Contato</h5>
+                <ul class="list-unstyled">
+                  <li>Telefone:<br>
+                    <a href="tel:+5511993099757">+55 (11) 9 9309-9757</a>
+                  </li>
+                  <li>E-mail:<br>
+                    <a href="mailto:imobchoice.adm@gmail.com">imobchoice.adm@gmail.com</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div class="footer-cta">
+            <h5>Para mais informações</h5>
+            <a href="contact.html" class="btn btn-outline">Clique Aqui!</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="footer-bottom-content">
+              <small><p class="mb-0">© <strong>Choise Imobiliária</strong>. All rights reserved.</p></small>
+              <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you've purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+                <small>Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | <a href="https://bootstrapmade.com/tools/">DevTools</a></small> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+<!-- JS -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// 🔥 SUA CONFIG (IMPORTANTE)
+const firebaseConfig = {
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849",
+  storageBucket: "imobiliaria-site-d0849.appspot.com"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// IDs selecionados
+const ids = JSON.parse(localStorage.getItem("comparar")) || [];
+
+async function carregarComparacao() {
+
+  const snapshot = await getDocs(collection(db, "imoveis"));
+  let selecionados = [];
+
+  snapshot.forEach(doc => {
+    if (ids.includes(doc.id)) {
+      selecionados.push(doc.data());
+    }
+  });
+
+  const topo = document.getElementById("topo");
+  topo.innerHTML = "<th></th>";
+
+  selecionados.forEach(imovel => {
+    topo.innerHTML += `
+      <th>
+        <img src="${imovel.imagens[0]}"><br>
+        ${imovel.titulo}
+      </th>
+    `;
+  });
+
+  const tabela = document.getElementById("tabela");
+
+  const campos = [
+    { nome: "Cidade", chave: "cidade" },
+    { nome: "Tipo", chave: "tipo" },
+    { nome: "Quartos", chave: "dorms" },
+    { nome: "Vagas", chave: "vaga" },
+    { nome: "Área", chave: "area" },
+    { nome: "Preço", chave: "preco" }
+  ];
+
+  campos.forEach(campo => {
+    let linha = `<tr><td>${campo.nome}</td>`;
+    selecionados.forEach(imovel => {
+      linha += `<td>${imovel[campo.chave] || "-"}</td>`;
+    });
+    linha += "</tr>";
+    tabela.innerHTML += linha;
+  });
+
+  const caracteristicasLista = [
+    "Academia","Beach Tennis","Bicicletário","Brinquedoteca","Churrasqueira",
+    "Cinema","Coworking","Cozinha Comunitária","Deck","Espaço Beleza",
+    "Espaço Massagem","Espaço Pet","Fitness","Home Office","Horta",
+    "Lavanderia Coletiva","Mini Golf","Mini Quadra","Parque Infantil",
+    "Pet Care","Pet Place","Piscina","Piscina Adulto","Piscina Infantil",
+    "Playground","Playkids","Praça","Prainha","Quadras","Redeiro",
+    "Sala de Dança","Sala de Reunião","Salão de Festas","Salão de Jogos",
+    "Salão Gourmet","Sauna","Solário","Solarium","Sport Bar"
+  ];
+
+  caracteristicasLista.forEach(item => {
+    let linha = `<tr><td>${item}</td>`;
+    selecionados.forEach(imovel => {
+      const tem = imovel.caracteristicas?.includes(item);
+      linha += `<td>${tem ? '<span class="check">✔</span>' : '<span class="no-check">✖</span>'}</td>`;
+    });
+    linha += "</tr>";
+    tabela.innerHTML += linha;
+  });
+
+}
+
+carregarComparacao();
+
+</script>
+
+</body>
+</html>
