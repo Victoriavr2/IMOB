@@ -1,1 +1,22 @@
+import { getDocs, collection } from "firebase/firestore";
 
+const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+async function carregarFavoritos() {
+
+  const snapshot = await getDocs(collection(db, "imoveis"));
+
+  snapshot.forEach(doc => {
+    const imovel = doc.data();
+
+    if (favoritos.includes(doc.id)) {
+
+      document.getElementById("lista").innerHTML += `
+        <div>
+          <h3>${imovel.titulo}</h3>
+          <img src="${imovel.imagens[0]}" width="200">
+        </div>
+      `;
+    }
+  });
+}
