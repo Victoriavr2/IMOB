@@ -2,9 +2,8 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Admin</title>
+  <title>Admin - Cadastrar Imóvel</title>
 </head>
-
 <body>
 
 <h2>Painel - Cadastrar Imóvel</h2>
@@ -71,14 +70,12 @@
 <label><input type="checkbox"> Solário</label><br>
 <label><input type="checkbox"> Sport Bar</label><br>
 
-
 <label>Selecionar imagens:</label><br>
 <input type="file" id="imagens" multiple accept="image/*"><br><br>
 
 <button onclick="salvar()">Cadastrar</button>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
@@ -98,56 +95,70 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// PROTEGER PÁGINA
+// PROTEÇÃO
 onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-  }
+  if (!user) window.location.href = "login.html";
 });
 
-// SALVAR
+// FUNÇÃO SALVAR
 window.salvar = async function() {
+  try {
+    const idImovel = document.getElementById("idImovel").value.trim();
+    const titulo = document.getElementById("titulo").value.trim();
+    const cidade = document.getElementById("cidade").value.trim();
+    const tipo = document.getElementById("tipo").value.trim();
+    const status = document.getElementById("status").value;
+    const preco = Number(document.getElementById("preco").value);
+    const dorms = Number(document.getElementById("dorms").value);
+    const vaga = Number(document.getElementById("vaga").value);
+    const area = Number(document.getElementById("area").value);
+    const descricao = document.getElementById("descricao").value.trim();
 
-  const files = document.getElementById("imagens").files;
-  let urls = [];
+    if(!idImovel || !titulo || !cidade) {
+      alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
 
-  // UPLOAD DAS IMAGENS
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const storageRef = ref(storage, "imoveis/" + Date.now() + "_" + file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    urls.push(url);
+    // CARACTERÍSTICAS
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const caracteristicas = Array.from(checkboxes).map(cb => cb.value);
+
+    // IMAGENS
+    const files = document.getElementById("imagens").files;
+    const urls = [];
+    for (let file of files) {
+      const storageRef = ref(storage, "imoveis/" + Date.now() + "_" + file.name);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      urls.push(url);
+    }
+
+    // SALVAR NO FIRESTORE
+    await setDoc(doc(db, "imoveis", idImovel), {
+      id: idImovel,
+      titulo,
+      cidade,
+      regiao: cidade.toLowerCase(),
+      tipo: tipo.toLowerCase(),
+      status,
+      preco,
+      dorms,
+      vaga,
+      area,
+      descricao,
+      imagens: urls,
+      caracteristicas
+    });
+
+    alert("Imóvel cadastrado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao cadastrar:", error);
+    alert("Erro ao cadastrar imóvel. Veja o console.");
   }
-
-  // CARACTERÍSTICAS
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  const caracteristicas = [];
-  checkboxes.forEach(cb => {
-    caracteristicas.push(cb.value);
-  });
-
-  // SALVAR NO FIRESTORE
-  await setDoc(doc(db, "imoveis", document.getElementById("idImovel").value), {
-    id: document.getElementById("idImovel").value,
-    titulo: document.getElementById("titulo").value,
-    cidade: document.getElementById("cidade").value,
-    regiao: document.getElementById("cidade").value.toLowerCase(), // usando cidade como regiao
-    tipo: document.getElementById("tipo").value.toLowerCase(),
-    status: document.getElementById("status").value.toLowerCase(),
-    preco: Number(document.getElementById("preco").value),
-    dorms: Number(document.getElementById("dorms").value),
-    vaga: Number(document.getElementById("vaga").value),
-    area: Number(document.getElementById("area").value),
-    descricao: document.getElementById("descricao").value,
-    imagens: urls,
-    caracteristicas: caracteristicas
-  });
-
-  alert("Imóvel cadastrado!");
 }
-
 </script>
 
 </body>
 </html>
+
+
