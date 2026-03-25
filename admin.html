@@ -11,15 +11,20 @@
 
 <input id="titulo" placeholder="Título"><br>
 <input id="cidade" placeholder="Cidade"><br>
-<input id="regiao" placeholder="Região (Ex: Jandira, Osasco)"> 
+<input id="regiao" placeholder="Região (Ex: Jandira, Osasco)"><br>
 <input id="preco" type="number" placeholder="Preço"><br>
 <input id="dorms" type="number" placeholder="Dorms"><br>
 <input id="vaga" type="number" placeholder="Vagas"><br>
 <input id="area" type="number" placeholder="Área"><br>
 
-<textarea id="descricao" placeholder="Descrição"></textarea><br>
+<textarea id="descricao" placeholder="Descrição"></textarea><br><br>
 
-<input id="imagem" placeholder="URL da imagem"><br><br>
+<!-- ❌ REMOVIDO: input de URL -->
+<!-- <input id="imagem" placeholder="URL da imagem"><br><br> -->
+
+<!-- ✅ NOVO: upload de imagens -->
+<label>Selecionar imagens:</label><br>
+<input type="file" id="imagens" multiple accept="image/*"><br><br>
 
 <button onclick="salvar()">Cadastrar</button>
 
@@ -28,18 +33,21 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
 
 // CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
   authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849"
+  projectId: "imobiliaria-site-d0849",
+  storageBucket: "imobiliaria-site-d0849.appspot.com"
 };
 
 // INICIAR
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // PROTEGER PÁGINA
 onAuthStateChanged(auth, (user) => {
@@ -51,15 +59,34 @@ onAuthStateChanged(auth, (user) => {
 // SALVAR
 window.salvar = async function() {
 
+  const files = document.getElementById("imagens").files;
+  let urls = [];
+
+  // 🔥 UPLOAD DAS IMAGENS
+  for (let i = 0; i < files.length; i++) {
+
+    const file = files[i];
+
+    const storageRef = ref(storage, "imoveis/" + Date.now() + "_" + file.name);
+
+    await uploadBytes(storageRef, file);
+
+    const url = await getDownloadURL(storageRef);
+
+    urls.push(url);
+  }
+
+  // 🔥 SALVAR NO FIRESTORE
   await addDoc(collection(db, "imoveis"), {
     titulo: document.getElementById("titulo").value,
     cidade: document.getElementById("cidade").value,
+    regiao: document.getElementById("regiao").value,
     preco: Number(document.getElementById("preco").value),
     dorms: Number(document.getElementById("dorms").value),
     vaga: Number(document.getElementById("vaga").value),
     area: Number(document.getElementById("area").value),
     descricao: document.getElementById("descricao").value,
-    imagens: [document.getElementById("imagem").value],
+    imagens: urls,
     status: "venda"
   });
 
