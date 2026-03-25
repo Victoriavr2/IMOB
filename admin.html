@@ -138,7 +138,7 @@ window.salvar = async function() {
   });
 
   // 🔥 SALVAR NO FIRESTORE
-  await addDoc(collection(db, "imoveis"), {
+  await setDoc(doc(db, "imoveis", document.getElementById("idImovel").value), {
     id: document.getElementById("idImovel").value, // ✅ ID PERSONALIZADO
     titulo: document.getElementById("titulo").value,
     cidade: document.getElementById("cidade").value,
