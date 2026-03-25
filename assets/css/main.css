@@ -3564,7 +3564,7 @@ section,
 .author-profile .author-content {
   background-color: var(--surface-color);
   border-radius: 15px;
-  padding: 2rem;
+  padding: 3rem;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   height: 100%;
 }
@@ -3574,13 +3574,12 @@ section,
 }
 
 .author-profile .author-content .content-header h3 {
-  font-size: 1.75rem;
-  margin-bottom: 0;
+  font-size: 2rem;
 }
 
 .author-profile .author-content .content-body p {
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.1rem;
+  line-height: 1.8;
   margin-bottom: 2rem;
 }
 
