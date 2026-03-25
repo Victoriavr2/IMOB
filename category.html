@@ -345,7 +345,384 @@ async function carregarImoveis() {
 
 carregarImoveis();
 
+    <style>
+    .card-imovel {
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .card-imovel:hover {
+      transform: translateY(-5px);
+    }
+
+    .acoes {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-acao {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .btn-acao:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-favorito.ativo {
+      color: red;
+    }
+
+    .btn-comparar.ativo {
+      color: #007bff;
+    }
+
+    /* 🔥 BOTÃO FIXO COMPARAR */
+    .btn-ir-comparar {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
+  Comparar (0)
+</div>
+
+<div class="container mt-5">
+  <div class="row" id="lista-imoveis"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// LOCAL STORAGE
+let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+let comparar = JSON.parse(localStorage.getItem("comparar")) || [];
+
+// BOTÃO COMPARAR FIXO
+function atualizarBotaoComparar() {
+  const btn = document.getElementById("btnComparar");
+  btn.innerText = `Comparar (${comparar.length})`;
+
+  btn.style.display = comparar.length > 0 ? "block" : "none";
+}
+
+window.irComparar = function() {
+  window.location.href = "comparar.html";
+};
+
+// CARREGAR IMÓVEIS
+async function carregarImoveis() {
+
+  const querySnapshot = await getDocs(collection(db, "imoveis"));
+  const container = document.getElementById("lista-imoveis");
+
+  querySnapshot.forEach((doc) => {
+    const imovel = doc.data();
+
+    container.innerHTML += `
+      <div class="col-lg-6">
+        <div class="card-imovel">
+
+          <div class="acoes">
+            <button class="btn-acao btn-favorito ${favoritos.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <button class="btn-acao btn-comparar ${comparar.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+              <i class="bi bi-arrow-left-right"></i>
+            </button>
+          </div>
+
+          <img src="${imovel.imagens[0]}" class="img-fluid">
+
+          <h4>
+            <a href="blog-details.html?id=${doc.id}">
+              ${imovel.titulo}
+            </a>
+          </h4>
+
+          <p>${imovel.cidade}</p>
+          <strong>R$ ${imovel.preco}</strong>
+
+        </div>
+      </div>
+    `;
+  });
+
+  atualizarBotaoComparar();
+}
+
+// EVENTOS (favorito + comparar)
+document.addEventListener("click", (e) => {
+
+  const fav = e.target.closest(".btn-favorito");
+  const comp = e.target.closest(".btn-comparar");
+
+  if (fav) {
+    const id = fav.dataset.id;
+
+    if (favoritos.includes(id)) {
+      favoritos = favoritos.filter(i => i !== id);
+      fav.classList.remove("ativo");
+    } else {
+      favoritos.push(id);
+      fav.classList.add("ativo");
+    }
+
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  }
+
+  if (comp) {
+    const id = comp.dataset.id;
+
+    if (comparar.includes(id)) {
+      comparar = comparar.filter(i => i !== id);
+      comp.classList.remove("ativo");
+    } else {
+      if (comparar.length >= 4) {
+        alert("Máximo 4 imóveis");
+        return;
+      }
+      comparar.push(id);
+      comp.classList.add("ativo");
+    }
+
+    localStorage.setItem("comparar", JSON.stringify(comparar));
+    atualizarBotaoComparar();
+  }
+
+});
+
+carregarImoveis();
+
 </script>
+
+   <!-- 🔥 ESTILO BOTÕES -->
+  <style>
+    .card-imovel {
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .card-imovel:hover {
+      transform: translateY(-5px);
+    }
+
+    .acoes {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-acao {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .btn-acao:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-favorito.ativo {
+      color: red;
+    }
+
+    .btn-comparar.ativo {
+      color: #007bff;
+    }
+
+    /* 🔥 BOTÃO FIXO COMPARAR */
+    .btn-ir-comparar {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
+  Comparar (0)
+</div>
+
+<div class="container mt-5">
+  <div class="row" id="lista-imoveis"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+  projectId: "imobiliaria-site-d0849"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// LOCAL STORAGE
+let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+let comparar = JSON.parse(localStorage.getItem("comparar")) || [];
+
+// BOTÃO COMPARAR FIXO
+function atualizarBotaoComparar() {
+  const btn = document.getElementById("btnComparar");
+  btn.innerText = `Comparar (${comparar.length})`;
+
+  btn.style.display = comparar.length > 0 ? "block" : "none";
+}
+
+window.irComparar = function() {
+  window.location.href = "comparar.html";
+};
+
+// CARREGAR IMÓVEIS
+async function carregarImoveis() {
+
+  const querySnapshot = await getDocs(collection(db, "imoveis"));
+  const container = document.getElementById("lista-imoveis");
+
+  querySnapshot.forEach((doc) => {
+    const imovel = doc.data();
+
+    container.innerHTML += `
+      <div class="col-lg-6">
+        <div class="card-imovel">
+
+          <div class="acoes">
+            <button class="btn-acao btn-favorito ${favoritos.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <button class="btn-acao btn-comparar ${comparar.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+              <i class="bi bi-arrow-left-right"></i>
+            </button>
+          </div>
+
+          <img src="${imovel.imagens[0]}" class="img-fluid">
+
+          <h4>
+            <a href="blog-details.html?id=${doc.id}">
+              ${imovel.titulo}
+            </a>
+          </h4>
+
+          <p>${imovel.cidade}</p>
+          <strong>R$ ${imovel.preco}</strong>
+
+        </div>
+      </div>
+    `;
+  });
+
+  atualizarBotaoComparar();
+}
+
+// EVENTOS (favorito + comparar)
+document.addEventListener("click", (e) => {
+
+  const fav = e.target.closest(".btn-favorito");
+  const comp = e.target.closest(".btn-comparar");
+
+  if (fav) {
+    const id = fav.dataset.id;
+
+    if (favoritos.includes(id)) {
+      favoritos = favoritos.filter(i => i !== id);
+      fav.classList.remove("ativo");
+    } else {
+      favoritos.push(id);
+      fav.classList.add("ativo");
+    }
+
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  }
+
+  if (comp) {
+    const id = comp.dataset.id;
+
+    if (comparar.includes(id)) {
+      comparar = comparar.filter(i => i !== id);
+      comp.classList.remove("ativo");
+    } else {
+      if (comparar.length >= 4) {
+        alert("Máximo 4 imóveis");
+        return;
+      }
+      comparar.push(id);
+      comp.classList.add("ativo");
+    }
+
+    localStorage.setItem("comparar", JSON.stringify(comparar));
+    atualizarBotaoComparar();
+  }
+
+});
+
+carregarImoveis();
+
+</script> 
   
 </body>
 
