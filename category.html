@@ -25,7 +25,66 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <style>
+    /* 🔥 ESTILO BOTÕES */
+    .card-imovel {
+      position: relative;
+      transition: 0.3s;
+    }
 
+    .card-imovel:hover {
+      transform: translateY(-5px);
+    }
+
+    .acoes {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-acao {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-acao:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-favorito.ativo {
+      color: red;
+    }
+
+    .btn-comparar.ativo {
+      color: #007bff;
+    }
+
+    /* 🔥 BOTÃO FIXO COMPARAR */
+    .btn-ir-comparar {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      z-index: 999;
+    }
+  </style>
   <!-- =======================================================
   * Template Name: Story
   * Template URL: https://bootstrapmade.com/story-bootstrap-blog-template/
@@ -34,15 +93,13 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
-
+  
 <body class="category-page">
 
   <header id="header" class="header d-flex align-items-center position-relative">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
         <img src="assets/img/choice simbolo dentro site.png" alt="Logo Choice" class="img-fluid" style="max-height: 100px;">
       </a>
 
@@ -50,11 +107,11 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">Sobre Nós</a></li>
-          </li><li class="dropdown">
-              <a href="index.html">
-                <span>Imóveis por Região</span> 
-                <i class="bi bi-chevron-down toggle-dropdown"></i>
-              </a>
+          <li class="dropdown">
+            <a href="index.html">
+              <span>Imóveis por Região</span>
+              <i class="bi bi-chevron-down toggle-dropdown"></i>
+            </a>
             <ul>
               <li><a href="category.html">Barueri</a></li>
               <li><a href="category.html">Cajamar</a></li>
@@ -70,16 +127,12 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-            <a class="btn-getstarted" href="index.html">Vamos lá!</a>
-      
-      </div>
+      <a class="btn-getstarted" href="index.html">Vamos lá!</a>
 
     </div>
   </header>
 
   <main class="main">
-
-    <!-- Page Title -->
     <div class="page-title">
       <div class="heading">
         <div class="container">
@@ -99,7 +152,15 @@
           </ol>
         </div>
       </nav>
-    </div><!-- End Page Title -->
+    </div>
+
+    <div class="container mt-5">
+      <div class="row" id="lista-imoveis"></div>
+    </div>
+
+    <div id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
+      Comparar (0)
+    </div>
 
     <div class="container">
       <div class="row">
@@ -245,485 +306,108 @@
    target="_blank">
    <i class="bi bi-whatsapp"></i>
 </a>
-<!-- CAIXA DE OPÇÕES  -->
-<script>
-  const btn = document.getElementById("btnToggle");
-  const collapse = document.getElementById("filtrosAvancados");
-
-  collapse.addEventListener("show.bs.collapse", () => {
-    btn.innerHTML = "🔍 -";
-  });
-
-  collapse.addEventListener("hide.bs.collapse", () => {
-    btn.innerHTML = "🔍 +";
-  });
-
-  const btnCarac = document.getElementById("btnCaracteristicas");
-  const carac = document.getElementById("caracteristicas");
-
-  carac.addEventListener("show.bs.collapse", () => {
-    btnCarac.innerHTML = "- Procure por características";
-  });
-
-  carac.addEventListener("hide.bs.collapse", () => {
-    btnCarac.innerHTML = "+ Procure por características";
-  });
-</script>
+  
+ <!-- Scripts -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/js/main.js"></script>
 
   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+      authDomain: "imobiliaria-site-d0849.firebaseapp.com",
+      projectId: "imobiliaria-site-d0849",
+      storageBucket: "imobiliaria-site-d0849.appspot.com",
+      messagingSenderId: "965962893487",
+      appId: "1:965962893487:web:1ed40e322fecd603526c5a"
+    };
 
-console.log("Firebase rodando");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849",
-  storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
-  messagingSenderId: "965962893487",
-  appId: "1:965962893487:web:1ed40e322fecd603526c5a"
-};
+    // LOCAL STORAGE
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    let comparar = JSON.parse(localStorage.getItem("comparar")) || [];
 
-// INICIAR
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    function atualizarBotaoComparar() {
+      const btn = document.getElementById("btnComparar");
+      btn.innerText = `Comparar (${comparar.length})`;
+      btn.style.display = comparar.length > 0 ? "block" : "none";
+    }
 
-// 🔥 PEGAR REGIÃO DA URL
-const params = new URLSearchParams(window.location.search);
-const regiaoFiltro = params.get("regiao");
+    window.irComparar = function () {
+      window.location.href = "comparar.html";
+    };
 
-// 🔥 BUSCAR IMÓVEIS
-async function carregarImoveis() {
+    async function carregarImoveis() {
+      const querySnapshot = await getDocs(collection(db, "imoveis"));
+      const container = document.getElementById("lista-imoveis");
+      container.innerHTML = "";
 
-  const querySnapshot = await getDocs(collection(db, "imoveis"));
-
-  const container = document.getElementById("lista-imoveis");
-  container.innerHTML = ""; // limpa antes
-
-  querySnapshot.forEach((doc) => {
-    const imovel = doc.data();
-
-    // 🔥 FILTRO POR REGIÃO
-    if (!regiaoFiltro || imovel.regiao === regiaoFiltro) {
-
-      const html = `
-        <div class="col-lg-6">
-          <article>
-
-            <div class="post-img">
+      querySnapshot.forEach((doc) => {
+        const imovel = doc.data();
+        container.innerHTML += `
+          <div class="col-lg-6">
+            <div class="card-imovel">
+              <div class="acoes">
+                <button class="btn-acao btn-favorito ${favoritos.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+                  <i class="bi bi-heart"></i>
+                </button>
+                <button class="btn-acao btn-comparar ${comparar.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
+                  <i class="bi bi-arrow-left-right"></i>
+                </button>
+              </div>
               <img src="${imovel.imagens[0]}" class="img-fluid">
+              <h4><a href="blog-details.html?id=${doc.id}">${imovel.titulo}</a></h4>
+              <p>${imovel.cidade}</p>
+              <strong>R$ ${imovel.preco}</strong>
             </div>
-
-            <div class="meta-top">
-              <ul>
-                <li>${imovel.status}</li>
-                <li><i class="bi bi-dot"></i> ${imovel.cidade}</li>
-              </ul>
-            </div>
-
-            <h2 class="title">  
-              <a href="blog-details.html?id=${doc.id}">
-                ${imovel.titulo}
-              </a> 
-            </h2>
-
-            <p>${imovel.descricao}</p>
-
-            <strong>R$ ${imovel.preco}</strong>
-
-          </article>
-        </div>
-      `;
-
-      container.innerHTML += html;
-    }
-  });
-}
-
-carregarImoveis();
-
-    <style>
-    .card-imovel {
-      position: relative;
-      transition: 0.3s;
-    }
-
-    .card-imovel:hover {
-      transform: translateY(-5px);
-    }
-
-    .acoes {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-acao {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    .btn-acao:hover {
-      transform: scale(1.1);
-    }
-
-    .btn-favorito.ativo {
-      color: red;
-    }
-
-    .btn-comparar.ativo {
-      color: #007bff;
-    }
-
-    /* 🔥 BOTÃO FIXO COMPARAR */
-    .btn-ir-comparar {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #007bff;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      display: none;
-      z-index: 999;
-    }
-  </style>
-</head>
-
-<body>
-
-<div id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
-  Comparar (0)
-</div>
-
-<div class="container mt-5">
-  <div class="row" id="lista-imoveis"></div>
-</div>
-
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSy...",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// LOCAL STORAGE
-let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-let comparar = JSON.parse(localStorage.getItem("comparar")) || [];
-
-// BOTÃO COMPARAR FIXO
-function atualizarBotaoComparar() {
-  const btn = document.getElementById("btnComparar");
-  btn.innerText = `Comparar (${comparar.length})`;
-
-  btn.style.display = comparar.length > 0 ? "block" : "none";
-}
-
-window.irComparar = function() {
-  window.location.href = "comparar.html";
-};
-
-// CARREGAR IMÓVEIS
-async function carregarImoveis() {
-
-  const querySnapshot = await getDocs(collection(db, "imoveis"));
-  const container = document.getElementById("lista-imoveis");
-
-  querySnapshot.forEach((doc) => {
-    const imovel = doc.data();
-
-    container.innerHTML += `
-      <div class="col-lg-6">
-        <div class="card-imovel">
-
-          <div class="acoes">
-            <button class="btn-acao btn-favorito ${favoritos.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
-              <i class="bi bi-heart"></i>
-            </button>
-
-            <button class="btn-acao btn-comparar ${comparar.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
-              <i class="bi bi-arrow-left-right"></i>
-            </button>
           </div>
+        `;
+      });
 
-          <img src="${imovel.imagens[0]}" class="img-fluid">
-
-          <h4>
-            <a href="blog-details.html?id=${doc.id}">
-              ${imovel.titulo}
-            </a>
-          </h4>
-
-          <p>${imovel.cidade}</p>
-          <strong>R$ ${imovel.preco}</strong>
-
-        </div>
-      </div>
-    `;
-  });
-
-  atualizarBotaoComparar();
-}
-
-// EVENTOS (favorito + comparar)
-document.addEventListener("click", (e) => {
-
-  const fav = e.target.closest(".btn-favorito");
-  const comp = e.target.closest(".btn-comparar");
-
-  if (fav) {
-    const id = fav.dataset.id;
-
-    if (favoritos.includes(id)) {
-      favoritos = favoritos.filter(i => i !== id);
-      fav.classList.remove("ativo");
-    } else {
-      favoritos.push(id);
-      fav.classList.add("ativo");
+      atualizarBotaoComparar();
     }
 
-    localStorage.setItem("favoritos", JSON.stringify(favoritos));
-  }
+    // EVENTOS (favorito + comparar)
+    document.addEventListener("click", (e) => {
+      const fav = e.target.closest(".btn-favorito");
+      const comp = e.target.closest(".btn-comparar");
 
-  if (comp) {
-    const id = comp.dataset.id;
-
-    if (comparar.includes(id)) {
-      comparar = comparar.filter(i => i !== id);
-      comp.classList.remove("ativo");
-    } else {
-      if (comparar.length >= 4) {
-        alert("Máximo 4 imóveis");
-        return;
+      if (fav) {
+        const id = fav.dataset.id;
+        if (favoritos.includes(id)) {
+          favoritos = favoritos.filter(i => i !== id);
+          fav.classList.remove("ativo");
+        } else {
+          favoritos.push(id);
+          fav.classList.add("ativo");
+        }
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
       }
-      comparar.push(id);
-      comp.classList.add("ativo");
-    }
 
-    localStorage.setItem("comparar", JSON.stringify(comparar));
-    atualizarBotaoComparar();
-  }
-
-});
-
-carregarImoveis();
-
-</script>
-
-   <!-- 🔥 ESTILO BOTÕES -->
-  <style>
-    .card-imovel {
-      position: relative;
-      transition: 0.3s;
-    }
-
-    .card-imovel:hover {
-      transform: translateY(-5px);
-    }
-
-    .acoes {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-acao {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    .btn-acao:hover {
-      transform: scale(1.1);
-    }
-
-    .btn-favorito.ativo {
-      color: red;
-    }
-
-    .btn-comparar.ativo {
-      color: #007bff;
-    }
-
-    /* 🔥 BOTÃO FIXO COMPARAR */
-    .btn-ir-comparar {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #007bff;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      display: none;
-      z-index: 999;
-    }
-  </style>
-</head>
-
-<body>
-
-<div id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
-  Comparar (0)
-</div>
-
-<div class="container mt-5">
-  <div class="row" id="lista-imoveis"></div>
-</div>
-
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// LOCAL STORAGE
-let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-let comparar = JSON.parse(localStorage.getItem("comparar")) || [];
-
-// BOTÃO COMPARAR FIXO
-function atualizarBotaoComparar() {
-  const btn = document.getElementById("btnComparar");
-  btn.innerText = `Comparar (${comparar.length})`;
-
-  btn.style.display = comparar.length > 0 ? "block" : "none";
-}
-
-window.irComparar = function() {
-  window.location.href = "comparar.html";
-};
-
-// CARREGAR IMÓVEIS
-async function carregarImoveis() {
-
-  const querySnapshot = await getDocs(collection(db, "imoveis"));
-  const container = document.getElementById("lista-imoveis");
-
-  querySnapshot.forEach((doc) => {
-    const imovel = doc.data();
-
-    container.innerHTML += `
-      <div class="col-lg-6">
-        <div class="card-imovel">
-
-          <div class="acoes">
-            <button class="btn-acao btn-favorito ${favoritos.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
-              <i class="bi bi-heart"></i>
-            </button>
-
-            <button class="btn-acao btn-comparar ${comparar.includes(doc.id) ? 'ativo' : ''}" data-id="${doc.id}">
-              <i class="bi bi-arrow-left-right"></i>
-            </button>
-          </div>
-
-          <img src="${imovel.imagens[0]}" class="img-fluid">
-
-          <h4>
-            <a href="blog-details.html?id=${doc.id}">
-              ${imovel.titulo}
-            </a>
-          </h4>
-
-          <p>${imovel.cidade}</p>
-          <strong>R$ ${imovel.preco}</strong>
-
-        </div>
-      </div>
-    `;
-  });
-
-  atualizarBotaoComparar();
-}
-
-// EVENTOS (favorito + comparar)
-document.addEventListener("click", (e) => {
-
-  const fav = e.target.closest(".btn-favorito");
-  const comp = e.target.closest(".btn-comparar");
-
-  if (fav) {
-    const id = fav.dataset.id;
-
-    if (favoritos.includes(id)) {
-      favoritos = favoritos.filter(i => i !== id);
-      fav.classList.remove("ativo");
-    } else {
-      favoritos.push(id);
-      fav.classList.add("ativo");
-    }
-
-    localStorage.setItem("favoritos", JSON.stringify(favoritos));
-  }
-
-  if (comp) {
-    const id = comp.dataset.id;
-
-    if (comparar.includes(id)) {
-      comparar = comparar.filter(i => i !== id);
-      comp.classList.remove("ativo");
-    } else {
-      if (comparar.length >= 4) {
-        alert("Máximo 4 imóveis");
-        return;
+      if (comp) {
+        const id = comp.dataset.id;
+        if (comparar.includes(id)) {
+          comparar = comparar.filter(i => i !== id);
+          comp.classList.remove("ativo");
+        } else {
+          if (comparar.length >= 4) { alert("Máximo 4 imóveis"); return; }
+          comparar.push(id);
+          comp.classList.add("ativo");
+        }
+        localStorage.setItem("comparar", JSON.stringify(comparar));
+        atualizarBotaoComparar();
       }
-      comparar.push(id);
-      comp.classList.add("ativo");
-    }
+    });
 
-    localStorage.setItem("comparar", JSON.stringify(comparar));
-    atualizarBotaoComparar();
-  }
+    carregarImoveis();
+  </script>
 
-});
-
-carregarImoveis();
-
-</script> 
-  
 </body>
-
 </html>
