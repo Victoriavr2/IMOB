@@ -56,11 +56,12 @@
                 <i class="bi bi-chevron-down toggle-dropdown"></i>
               </a>
             <ul>
-              <li><a href="#">Centro</a></li>
-              <li><a href="#">Zona Norte</a></li>
-              <li><a href="#">Zona Sul</a></li>
-              <li><a href="#">Zona Leste</a></li>
-              <li><a href="#">Zona Oeste</a></li>
+              <li><a href="category.html">Barueri</a></li>
+              <li><a href="category.html">Cajamar</a></li>
+              <li><a href="category.html">Cotia</a></li>
+              <li><a href="category.html">Jandira</a></li>
+              <li><a href="category.html">Itapevi</a></li>
+              <li><a href="category.html">Santana de Parnaíba</a></li>
             </ul>
           </li>
           <li><a href="blog-details.html">Blog Details</a></li>
@@ -274,12 +275,12 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-    
+
 console.log("Firebase rodando");
 
 // CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
+  apiKey: "SUA API KEY",
   authDomain: "imobiliaria-site-d0849.firebaseapp.com",
   projectId: "imobiliaria-site-d0849",
   storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
@@ -291,46 +292,55 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// 🔥 PEGAR REGIÃO DA URL
+const params = new URLSearchParams(window.location.search);
+const regiaoFiltro = params.get("regiao");
+
 // 🔥 BUSCAR IMÓVEIS
 async function carregarImoveis() {
 
   const querySnapshot = await getDocs(collection(db, "imoveis"));
 
   const container = document.getElementById("lista-imoveis");
+  container.innerHTML = ""; // limpa antes
 
   querySnapshot.forEach((doc) => {
     const imovel = doc.data();
 
-    const html = `
-      <div class="col-lg-6">
-        <article>
+    // 🔥 FILTRO POR REGIÃO
+    if (!regiaoFiltro || imovel.Regiao === regiaoFiltro) {
 
-          <div class="post-img">
-            <img src="${imovel.Imagens[0]}" class="img-fluid">
-          </div>
+      const html = `
+        <div class="col-lg-6">
+          <article>
 
-          <div class="meta-top">
-            <ul>
-              <li>${imovel.Status}</li>
-              <li><i class="bi bi-dot"></i> ${imovel.Cidade}</li>
-            </ul>
-          </div>
+            <div class="post-img">
+              <img src="${imovel.Imagens[0]}" class="img-fluid">
+            </div>
 
-          <h2 class="title">  
-          <a href="blog-details.html?id=${doc.id}">
-            ${imovel.Título}
-          </a> 
-        </h2>
+            <div class="meta-top">
+              <ul>
+                <li>${imovel.Status}</li>
+                <li><i class="bi bi-dot"></i> ${imovel.Cidade}</li>
+              </ul>
+            </div>
 
-          <p>${imovel.Descrição}</p>
+            <h2 class="title">  
+              <a href="blog-details.html?id=${doc.id}">
+                ${imovel.Título}
+              </a> 
+            </h2>
 
-          <strong>R$ ${imovel.Preço}</strong>
+            <p>${imovel.Descrição}</p>
 
-        </article>
-      </div>
-    `;
+            <strong>R$ ${imovel.Preço}</strong>
 
-    container.innerHTML += html;
+          </article>
+        </div>
+      `;
+
+      container.innerHTML += html;
+    }
   });
 }
 
