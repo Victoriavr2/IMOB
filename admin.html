@@ -52,15 +52,15 @@ onAuthStateChanged(auth, (user) => {
 window.salvar = async function() {
 
   await addDoc(collection(db, "imoveis"), {
-    Título: document.getElementById("titulo").value,
-    Cidade: document.getElementById("cidade").value,
-    Preço: Number(document.getElementById("preco").value),
-    Dorms: Number(document.getElementById("dorms").value),
-    Vaga: Number(document.getElementById("vaga").value),
-    Área: Number(document.getElementById("area").value),
-    Descrição: document.getElementById("descricao").value,
-    Imagens: [document.getElementById("imagem").value],
-    Status: "venda"
+    titulo: document.getElementById("titulo").value,
+    cidade: document.getElementById("cidade").value,
+    preco: Number(document.getElementById("preco").value),
+    dorms: Number(document.getElementById("dorms").value),
+    vaga: Number(document.getElementById("vaga").value),
+    area: Number(document.getElementById("area").value),
+    descricao: document.getElementById("descricao").value,
+    imagens: [document.getElementById("imagem").value],
+    status: "venda"
   });
 
   alert("Imóvel cadastrado!");
