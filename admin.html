@@ -9,9 +9,21 @@
 
 <h2>Painel - Cadastrar Imóvel</h2>
 
+<!-- 🔥 NOVO ID -->
+<input id="idImovel" placeholder="ID do imóvel (Ex: IMOVEL-001)"><br>
+
 <input id="titulo" placeholder="Título"><br>
 <input id="cidade" placeholder="Cidade"><br>
 <input id="regiao" placeholder="Região (Ex: Jandira, Osasco)"><br>
+
+<input id="tipo" placeholder="Tipo (casa, apartamento...)"><br>
+
+<select id="status">
+  <option value="venda">Venda</option>
+  <option value="aluguel">Aluguel</option>
+  <option value="lancamento">Lançamento</option>
+</select><br>
+
 <input id="preco" type="number" placeholder="Preço"><br>
 <input id="dorms" type="number" placeholder="Dorms"><br>
 <input id="vaga" type="number" placeholder="Vagas"><br>
@@ -19,10 +31,17 @@
 
 <textarea id="descricao" placeholder="Descrição"></textarea><br><br>
 
-<!-- ❌ REMOVIDO: input de URL -->
-<!-- <input id="imagem" placeholder="URL da imagem"><br><br> -->
+<!-- 🔥 CARACTERÍSTICAS -->
+<h3>Características</h3>
 
-<!-- ✅ NOVO: upload de imagens -->
+<label><input type="checkbox" value="piscina"> Piscina</label><br>
+<label><input type="checkbox" value="academia"> Academia</label><br>
+<label><input type="checkbox" value="churrasqueira"> Churrasqueira</label><br>
+<label><input type="checkbox" value="playground"> Playground</label><br>
+<label><input type="checkbox" value="quadra"> Quadra</label><br>
+<label><input type="checkbox" value="salao de festas"> Salão de Festas</label><br><br>
+
+<!-- 🔥 UPLOAD DE IMAGENS -->
 <label>Selecionar imagens:</label><br>
 <input type="file" id="imagens" multiple accept="image/*"><br><br>
 
@@ -66,32 +85,47 @@ window.salvar = async function() {
   for (let i = 0; i < files.length; i++) {
 
     const file = files[i];
-
     const storageRef = ref(storage, "imoveis/" + Date.now() + "_" + file.name);
 
     await uploadBytes(storageRef, file);
-
     const url = await getDownloadURL(storageRef);
 
     urls.push(url);
   }
 
+  // 🔥 PEGAR CARACTERÍSTICAS
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  const caracteristicas = [];
+
+  checkboxes.forEach(cb => {
+    caracteristicas.push(cb.value);
+  });
+
   // 🔥 SALVAR NO FIRESTORE
   await addDoc(collection(db, "imoveis"), {
+    id: document.getElementById("idImovel").value, // ✅ ID PERSONALIZADO
     titulo: document.getElementById("titulo").value,
     cidade: document.getElementById("cidade").value,
-    regiao: document.getElementById("regiao").value,
+    regiao: document.getElementById("regiao").value.toLowerCase(),
+    tipo: document.getElementById("tipo").value.toLowerCase(),
+    status: document.getElementById("status").value.toLowerCase(),
     preco: Number(document.getElementById("preco").value),
     dorms: Number(document.getElementById("dorms").value),
     vaga: Number(document.getElementById("vaga").value),
     area: Number(document.getElementById("area").value),
     descricao: document.getElementById("descricao").value,
     imagens: urls,
-    status: "venda"
+    caracteristicas: caracteristicas
   });
 
   alert("Imóvel cadastrado!");
+
 }
+
+</script>
+
+</body>
+</html>
 
 </script>
 
