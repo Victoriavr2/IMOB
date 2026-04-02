@@ -30,50 +30,50 @@
 <textarea id="descricao" placeholder="Descrição"></textarea><br><br>
 
 <h3>Características</h3>
-<label><input type="checkbox"> Academia</label><br>
-<label><input type="checkbox"> Aquecimento a gás</label><br>
-<label><input type="checkbox"> Área de serviço</label><br>
-<label><input type="checkbox"> Beach Tennis</label><br>
-<label><input type="checkbox"> Bicicletário</label><br>
-<label><input type="checkbox"> Brinquedoteca</label><br>
-<label><input type="checkbox"> Churrasqueira</label><br>
-<label><input type="checkbox"> Cinema</label><br>
-<label><input type="checkbox"> Coworking</label><br>
-<label><input type="checkbox"> Cozinha Comunitária</label><br>
-<label><input type="checkbox"> Deck</label><br>
-<label><input type="checkbox"> Espaço Beleza</label><br>
-<label><input type="checkbox"> Espaço Massagem</label><br>
-<label><input type="checkbox"> Espaço Pet</label><br>
-<label><input type="checkbox"> Elevadores</label><br>
-<label><input type="checkbox"> Fitness</label><br>
-<label><input type="checkbox"> Home Office</label><br>
-<label><input type="checkbox"> Horta</label><br>
-<label><input type="checkbox"> Lavanderia Coletiva</label><br>
-<label><input type="checkbox"> Mini Golf</label><br>
-<label><input type="checkbox"> Mini Quadra</label><br>
-<label><input type="checkbox"> Pet Care</label><br>
-<label><input type="checkbox"> Pet Place</label><br>
-<label><input type="checkbox"> Piscina</label><br>
-<label><input type="checkbox"> Playground</label><br>
-<label><input type="checkbox"> Praça</label><br>
-<label><input type="checkbox"> Prainha</label><br>
-<label><input type="checkbox"> Portaria 24h</label><br>
-<label><input type="checkbox"> Quadras</label><br>
-<label><input type="checkbox"> Redeiro</label><br>
-<label><input type="checkbox"> Sala de Dança</label><br>
-<label><input type="checkbox"> Sala de Reunião</label><br>
-<label><input type="checkbox"> Salão de Festas</label><br>
-<label><input type="checkbox"> Salão de Jogos</label><br>
-<label><input type="checkbox"> Sistema de câmeras</label><br>
-<label><input type="checkbox"> Salão Gourmet</label><br>
-<label><input type="checkbox"> Sauna</label><br>
-<label><input type="checkbox"> Solário</label><br>
-<label><input type="checkbox"> Sport Bar</label><br>
+<label><input type="checkbox value="Academia"> Academia</label><br>
+<label><input type="checkbox value="Aquecimento a gás"> Aquecimento a gás</label><br>
+<label><input type="checkbox value="Área de serviço"> Área de serviço</label><br>
+<label><input type="checkbox value=""> Beach Tennis</label><br>
+<label><input type="checkbox value="Bicicletário"> Bicicletário</label><br>
+<label><input type="checkbox value="Brinquedoteca"> Brinquedoteca</label><br>
+<label><input type="checkbox value="Churrasqueira"> Churrasqueira</label><br>
+<label><input type="checkbox value="Cinema"> Cinema</label><br>
+<label><input type="checkbox value="Coworking"> Coworking</label><br>
+<label><input type="checkbox value="Cozinha Comunitária"> Cozinha Comunitária</label><br>
+<label><input type="checkbox value="Deck"> Deck</label><br>
+<label><input type="checkbox value="Espaço Beleza</"> Espaço Beleza</label><br>
+<label><input type="checkbox value="Espaço Massagem"> Espaço Massagem</label><br>
+<label><input type="checkbox value="Espaço Pet"> Espaço Pet</label><br>
+<label><input type="checkbox value="Elevadores"> Elevadores</label><br>
+<label><input type="checkbox value="Horta"> Horta</label><br>
+<label><input type="checkbox value="Lavanderia Coletiva"> Lavanderia Coletiva</label><br>
+<label><input type="checkbox value="Mini Golf"> Mini Golf</label><br>
+<label><input type="checkbox value="Mini Quadra"> Mini Quadra</label><br>
+<label><input type="checkbox value="Pet Place"> Pet Place</label><br>
+<label><input type="checkbox value="Piscina"> Piscina</label><br>
+<label><input type="checkbox value="Playground"> Playground</label><br>
+<label><input type="checkbox value="Praça"> Praça</label><br>
+<label><input type="checkbox value="Prainha"> Prainha</label><br>
+<label><input type="checkbox value="Portaria 24h"> Portaria 24h</label><br>
+<label><input type="checkbox value="Quadras"> Quadras</label><br>
+<label><input type="checkbox value="Redeiro"> Redeiro</label><br>
+<label><input type="checkbox value="Sala de Dança"> Sala de Dança</label><br>
+<label><input type="checkbox value="Sala de Reunião"> Sala de Reunião</label><br>
+<label><input type="checkbox value="Salão de Festas"> Salão de Festas</label><br>
+<label><input type="checkbox value="Salão de Jogos"> Salão de Jogos</label><br>
+<label><input type="checkbox value="Sistema de câmeras"> Sistema de câmeras</label><br>
+<label><input type="checkbox value="Salão Gourmet"> Salão Gourmet</label><br>
+<label><input type="checkbox value="Sauna"> Sauna</label><br>
+<label><input type="checkbox value="Solário"> Solário</label><br>
+<label><input type="checkbox value="Sport Bar"> Sport Bar</label><br>
 
 <label>Selecionar imagens:</label><br>
 <input type="file" id="imagens" multiple accept="image/*"><br><br>
 
-<button onclick="salvar()">Cadastrar</button>
+<button onclick="salvar(if (!auth.currentUser) {
+  alert("Você precisa estar logado!");
+  return;
+})">Cadastrar</button>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -86,7 +86,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
   authDomain: "imobiliaria-site-d0849.firebaseapp.com",
   projectId: "imobiliaria-site-d0849",
-  storageBucket: "imobiliaria-site-d0849.firebasestorage.app",
+  storageBucket: "imobiliaria-site-d0849.appspot.com",
   messagingSenderId: "965962893487",
   appId: "1:965962893487:web:1ed40e322fecd603526c5a",
   measurementId: "G-PZM7LW2HT2"
@@ -107,6 +107,12 @@ onAuthStateChanged(auth, (user) => {
 // FUNÇÃO SALVAR
 window.salvar = async function() {
   try {
+
+    if (!auth.currentUser) {
+      alert("Você precisa estar logado!");
+      return;
+    }
+    
     const idImovel = document.getElementById("idImovel").value.trim();
     const titulo = document.getElementById("titulo").value.trim();
     const cidade = document.getElementById("cidade").value.trim();
@@ -155,9 +161,11 @@ window.salvar = async function() {
     });
 
     alert("Imóvel cadastrado com sucesso!");
-  } catch (error) {
-    console.error("Erro ao cadastrar:", error);
-    alert("Erro ao cadastrar imóvel. Veja o console.");
+  } 
+    catch (error) {
+  console.error("Erro completo:", error);
+  alert("Erro: " + error.message);
+}
   }
 }
 </script>
