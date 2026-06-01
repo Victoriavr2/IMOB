@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Imóveis - Choice Imobiliária</title>
- 
+
   <!-- Favicons -->
   <link href="assets/img/choice simbolo dentro site.png" rel="icon">
- 
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
- 
+
   <!-- Vendor CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
- 
+
   <style>
     /* FILTRO */
     .filtro-bar {
@@ -30,14 +30,14 @@
       top: 0;
       z-index: 50;
     }
- 
+
     .filtro-inner {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
- 
+
     .filtro-btn {
       padding: 7px 18px;
       border: 1px solid #ddd;
@@ -49,14 +49,14 @@
       font-family: 'Montserrat', sans-serif;
       color: #555;
     }
- 
+
     .filtro-btn:hover,
     .filtro-btn.ativo {
       background: #1a1a1a;
       border-color: #1a1a1a;
       color: white;
     }
- 
+
     /* CARDS */
     .card-imovel {
       background: white;
@@ -66,29 +66,29 @@
       transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
     }
- 
+
     .card-imovel:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     }
- 
+
     .card-img-wrap {
       position: relative;
       overflow: hidden;
       aspect-ratio: 4/3;
     }
- 
+
     .card-img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s;
     }
- 
+
     .card-imovel:hover .card-img-wrap img {
       transform: scale(1.05);
     }
- 
+
     .badge-status {
       position: absolute;
       top: 12px;
@@ -102,7 +102,7 @@
       padding: 4px 10px;
       border-radius: 2px;
     }
- 
+
     .acoes {
       position: absolute;
       top: 10px;
@@ -110,7 +110,7 @@
       display: flex;
       gap: 6px;
     }
- 
+
     .btn-acao {
       width: 36px;
       height: 36px;
@@ -126,35 +126,35 @@
       font-size: 16px;
       color: #555;
     }
- 
+
     .btn-acao:hover { transform: scale(1.1); }
     .btn-favorito.ativo { color: #e74c3c; }
     .btn-comparar.ativo { color: #3498db; }
- 
+
     .card-body-imovel {
       padding: 16px;
     }
- 
+
     .card-body-imovel h4 {
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 4px;
       color: #1a1a1a;
     }
- 
+
     .card-body-imovel h4 a {
       color: inherit;
       text-decoration: none;
     }
- 
+
     .card-body-imovel h4 a:hover { color: #b8975a; }
- 
+
     .card-cidade {
       font-size: 13px;
       color: #888;
       margin-bottom: 12px;
     }
- 
+
     .card-specs {
       display: flex;
       gap: 14px;
@@ -163,25 +163,25 @@
       margin-bottom: 12px;
       flex-wrap: wrap;
     }
- 
+
     .card-specs span { display: flex; align-items: center; gap: 4px; }
     .card-specs i { color: #b8975a; }
- 
+
     .card-preco {
       font-size: 18px;
       font-weight: 700;
       color: #1a1a1a;
     }
- 
+
     /* SEM RESULTADOS */
     .sem-resultados {
       text-align: center;
       padding: 60px 20px;
       color: #888;
     }
- 
+
     .sem-resultados i { font-size: 48px; margin-bottom: 16px; display: block; }
- 
+
     /* COMPARAR FLUTUANTE */
     .btn-ir-comparar {
       position: fixed;
@@ -200,9 +200,9 @@
       border: none;
       transition: background 0.2s;
     }
- 
+
     .btn-ir-comparar:hover { background: #333; }
- 
+
     /* LOADING */
     .loading-spinner {
       text-align: center;
@@ -211,9 +211,9 @@
     }
   </style>
 </head>
- 
+
 <body class="category-page">
- 
+
   <header id="header" class="header d-flex align-items-center position-relative">
     <div class="container position-relative d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -242,7 +242,7 @@
       <a class="btn-getstarted" href="category.html">Ver Imóveis</a>
     </div>
   </header>
- 
+
   <main class="main">
     <div class="page-title">
       <div class="heading">
@@ -264,7 +264,7 @@
         </div>
       </nav>
     </div>
- 
+
     <!-- FILTRO POR CIDADE -->
     <div class="filtro-bar">
       <div class="container">
@@ -280,7 +280,7 @@
         </div>
       </div>
     </div>
- 
+
     <div class="container mt-4 mb-5">
       <div class="row g-4" id="lista-imoveis">
         <div class="loading-spinner col-12">
@@ -290,11 +290,11 @@
       </div>
     </div>
   </main>
- 
+
   <button id="btnComparar" class="btn-ir-comparar" onclick="irComparar()">
     <i class="bi bi-arrow-left-right me-2"></i> Comparar (<span id="contComparar">0</span>)
   </button>
- 
+
   <footer id="footer" class="footer position-relative light-background">
     <div class="container">
       <div class="row gy-5">
@@ -342,21 +342,21 @@
       </div>
     </div>
   </footer>
- 
+
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <div id="preloader"></div>
- 
+
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/js/main.js"></script>
- 
+
   <a href="https://wa.me/5511993099757?text=Olá!%20Gostaria%20de%20mais%20informações."
      class="whatsapp-float" target="_blank">
     <i class="bi bi-whatsapp"></i>
   </a>
- 
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // ============================================================
@@ -364,18 +364,18 @@
     const SUPABASE_URL = 'https://xmuccqvtjyrhjlqgmwlm.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_C9g6VFR-DOdTgnPsEHbK9A_d7Il5N96';
     // ============================================================
- 
+
     const { createClient } = supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
- 
+
     let todosImoveis = [];
     let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
     let comparar = JSON.parse(localStorage.getItem('comparar')) || [];
- 
+
     // Verifica filtro via URL
     const urlParams = new URLSearchParams(window.location.search);
     let cidadeAtiva = urlParams.get('cidade') || '';
- 
+
     // Atualiza heading se vier por URL
     if (cidadeAtiva) {
       document.getElementById('page-heading').textContent = 'Imóveis em ' + cidadeAtiva;
@@ -384,7 +384,7 @@
         btn.classList.toggle('ativo', btn.dataset.cidade === cidadeAtiva);
       });
     }
- 
+
     // FILTRO
     document.querySelectorAll('.filtro-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -394,26 +394,26 @@
         renderImoveis();
       });
     });
- 
+
     function atualizarComparar() {
       const n = comparar.length;
       document.getElementById('contComparar').textContent = n;
       document.getElementById('btnComparar').style.display = n > 0 ? 'block' : 'none';
     }
- 
+
     window.irComparar = () => window.location.href = 'comparar.html';
- 
+
     function formatarPreco(preco) {
       return preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
     }
- 
+
     function renderImoveis() {
       const lista = cidadeAtiva
         ? todosImoveis.filter(i => i.cidade === cidadeAtiva)
         : todosImoveis;
- 
+
       const container = document.getElementById('lista-imoveis');
- 
+
       if (lista.length === 0) {
         container.innerHTML = `
           <div class="sem-resultados col-12">
@@ -422,15 +422,15 @@
           </div>`;
         return;
       }
- 
+
       container.innerHTML = lista.map(imovel => {
         const img = imovel.imagens && imovel.imagens.length > 0
           ? imovel.imagens[0]
           : 'assets/img/sem-foto.jpg';
- 
+
         const isFav = favoritos.includes(imovel.id);
         const isComp = comparar.includes(imovel.id);
- 
+
         return `
           <div class="col-lg-4 col-md-6" data-aos="fade-up">
             <div class="card-imovel">
@@ -459,58 +459,66 @@
             </div>
           </div>`;
       }).join('');
- 
+
       // Reinicia AOS
       if (window.AOS) AOS.refresh();
     }
- 
+
     // EVENTOS (favorito + comparar)
     document.addEventListener('click', e => {
       const fav = e.target.closest('.btn-favorito');
       const comp = e.target.closest('.btn-comparar');
- 
+
       if (fav) {
+        e.preventDefault();
+        e.stopPropagation();
         const id = fav.dataset.id;
-        if (favoritos.includes(id)) {
-          favoritos = favoritos.filter(i => i !== id);
+        if (favoritos.includes(String(id))) {
+          favoritos = favoritos.filter(i => String(i) !== String(id));
+          fav.classList.remove('ativo');
+          fav.querySelector('i').className = 'bi bi-heart';
         } else {
-          favoritos.push(id);
+          favoritos.push(String(id));
+          fav.classList.add('ativo');
+          fav.querySelector('i').className = 'bi bi-heart-fill';
         }
         localStorage.setItem('favoritos', JSON.stringify(favoritos));
-        renderImoveis();
       }
- 
+
       if (comp) {
+        e.preventDefault();
+        e.stopPropagation();
         const id = comp.dataset.id;
-        if (comparar.includes(id)) {
-          comparar = comparar.filter(i => i !== id);
+        if (comparar.includes(String(id))) {
+          comparar = comparar.filter(i => String(i) !== String(id));
+          comp.classList.remove('ativo');
         } else {
           if (comparar.length >= 4) { alert('Máximo 4 imóveis para comparar.'); return; }
-          comparar.push(id);
+          comparar.push(String(id));
+          comp.classList.add('ativo');
         }
         localStorage.setItem('comparar', JSON.stringify(comparar));
         atualizarComparar();
-        renderImoveis();
       }
     });
- 
+
     // CARREGA DO SUPABASE
     async function carregarImoveis() {
       const { data, error } = await sb.from('imoveis').select('*').order('created_at', { ascending: false });
- 
+
       if (error) {
         document.getElementById('lista-imoveis').innerHTML =
           '<div class="col-12 text-center text-danger py-5">Erro ao carregar imóveis. Tente novamente.</div>';
         return;
       }
- 
+
       todosImoveis = data || [];
       atualizarComparar();
       renderImoveis();
     }
- 
+
     carregarImoveis();
   </script>
- 
+
 </body>
 </html>
