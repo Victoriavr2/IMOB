@@ -25,41 +25,86 @@
       overflow: hidden;
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
       transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      height: 100%;
     }
- 
     .card-imovel:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     }
- 
     .card-img-wrap {
       aspect-ratio: 4/3;
       overflow: hidden;
+      position: relative;
     }
- 
     .card-img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .card-imovel:hover .card-img-wrap img { transform: scale(1.05); }
+ 
+    .badge-status {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #b8975a;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
     }
  
     .card-body-imovel { padding: 16px; }
-    .card-body-imovel h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-    .card-body-imovel h4 a { color: #1a1a1a; text-decoration: none; }
+    .card-body-imovel h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #1a1a1a; }
+    .card-body-imovel h4 a { color: inherit; text-decoration: none; }
     .card-body-imovel h4 a:hover { color: #b8975a; }
  
-    .card-preco { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-top: 8px; }
+    .card-cidade { font-size: 13px; color: #888; margin-bottom: 10px; }
+ 
+    .card-specs {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .card-specs span { display: flex; align-items: center; gap: 4px; }
+    .card-specs i { color: #b8975a; }
+ 
+    .card-preco { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px; }
+ 
+    .card-acoes { display: flex; gap: 8px; }
+ 
+    .btn-detalhe {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      background: #1a1a1a;
+      color: white;
+      border-radius: 2px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-detalhe:hover { background: #333; color: white; }
  
     .btn-remover {
-      margin-top: 10px;
+      padding: 8px 12px;
       background: transparent;
       border: 1px solid #e0d9ce;
       color: #c0392b;
       font-size: 13px;
-      padding: 6px 14px;
       border-radius: 2px;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
     .btn-remover:hover { background: #fdf0ef; border-color: #c0392b; }
  
@@ -68,7 +113,15 @@
       padding: 80px 20px;
       color: #888;
     }
-    .vazio i { font-size: 48px; display: block; margin-bottom: 16px; color: #ddd; }
+    .vazio i { font-size: 56px; display: block; margin-bottom: 20px; color: #e0d9ce; }
+    .vazio h4 { font-size: 20px; color: #555; margin-bottom: 8px; }
+ 
+    .contador {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 24px;
+    }
+    .contador strong { color: #b8975a; }
   </style>
 </head>
  
@@ -83,12 +136,23 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">Sobre Nós</a></li>
-          <li><a href="category.html">Imóveis</a></li>
+          <li class="dropdown">
+            <a href="category.html"><span>Imóveis por Região</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="category.html?cidade=Barueri">Barueri</a></li>
+              <li><a href="category.html?cidade=Cajamar">Cajamar</a></li>
+              <li><a href="category.html?cidade=Cotia">Cotia</a></li>
+              <li><a href="category.html?cidade=Jandira">Jandira</a></li>
+              <li><a href="category.html?cidade=Itapevi">Itapevi</a></li>
+              <li><a href="category.html?cidade=Santana de Parnaíba">Santana de Parnaíba</a></li>
+            </ul>
+          </li>
           <li><a href="author-profile.html">Corretores</a></li>
           <li><a href="contact.html">Contato</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+      <a class="btn-getstarted" href="category.html">Ver Imóveis</a>
     </div>
   </header>
  
@@ -97,7 +161,7 @@
       <div class="heading">
         <div class="container text-center">
           <h1 class="heading-title">Meus Favoritos</h1>
-          <p>Imóveis que você salvou</p>
+          <p>Imóveis que você salvou para ver depois</p>
         </div>
       </div>
       <nav class="breadcrumbs">
@@ -111,9 +175,11 @@
     </div>
  
     <div class="container py-5">
+      <div id="contador" class="contador" style="display:none;"></div>
       <div class="row g-4" id="lista-favoritos">
         <div class="col-12 text-center py-5">
           <div class="spinner-border" style="color:#b8975a;" role="status"></div>
+          <p class="mt-3" style="color:#888;">Carregando favoritos...</p>
         </div>
       </div>
     </div>
@@ -123,19 +189,39 @@
     <div class="container">
       <div class="row gy-5">
         <div class="col-lg-4">
-          <span class="sitename">Choice Imobiliária</span>
-          <p class="tagline mt-2">Choice, sua melhor escolha!</p>
-          <div class="social-links mt-3">
-            <a href="https://www.facebook.com/share/1bP3SdFWno/?mibextid=wwXIfr"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/imobiliariachoice?igsh=MWpzZHczM2FpMmx3MA%3D%3D&utm_source=qr"><i class="bi bi-instagram"></i></a>
+          <div class="footer-brand">
+            <a href="index.html" class="logo d-flex align-items-center mb-3">
+              <span class="sitename">Choice Imobiliária</span>
+            </a>
+            <p class="tagline">Choice, sua melhor escolha!</p>
+            <div class="social-links mt-4">
+              <a href="https://www.facebook.com/share/1bP3SdFWno/?mibextid=wwXIfr"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.instagram.com/imobiliariachoice?igsh=MWpzZHczM2FpMmx3MA%3D%3D&utm_source=qr"><i class="bi bi-instagram"></i></a>
+            </div>
           </div>
         </div>
-        <div class="col-lg-4">
-          <h5>Contato</h5>
-          <ul class="list-unstyled">
-            <li><a href="tel:+5511993099757">+55 (11) 9 9309-9757</a></li>
-            <li><a href="mailto:imobchoice.adm@gmail.com">imobchoice.adm@gmail.com</a></li>
-          </ul>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-6">
+              <h5>Imobiliária</h5>
+              <ul class="list-unstyled">
+                <li><a href="about.html">Sobre nós</a></li>
+                <li><a href="author-profile.html">Nosso time</a></li>
+                <li><a href="category.html">Imóveis</a></li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <h5>Contato</h5>
+              <ul class="list-unstyled">
+                <li>Telefone:<br><a href="tel:+5511993099757">+55 (11) 9 9309-9757</a></li>
+                <li>E-mail:<br><a href="mailto:imobchoice.adm@gmail.com">imobchoice.adm@gmail.com</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <h5>Para mais informações</h5>
+          <a href="contact.html" class="btn btn-outline">Clique Aqui!</a>
         </div>
       </div>
     </div>
@@ -160,12 +246,8 @@
  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // ============================================================
-    // ⚠️ SUBSTITUA PELOS SEUS DADOS DO SUPABASE
     const SUPABASE_URL = 'https://xmuccqvtjyrhjlqgmwlm.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_C9g6VFR-DOdTgnPsEHbK9A_d7Il5N96';
-    // ============================================================
- 
     const { createClient } = supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  
@@ -173,71 +255,82 @@
       return preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
     }
  
+    function mostrarVazio() {
+      document.getElementById('contador').style.display = 'none';
+      document.getElementById('lista-favoritos').innerHTML = `
+        <div class="col-12 vazio">
+          <i class="bi bi-heart"></i>
+          <h4>Nenhum favorito ainda</h4>
+          <p>Navegue pelos imóveis e clique no ❤️ para salvar os que gostar.</p>
+          <a href="category.html" class="btn btn-outline-secondary mt-3">Ver imóveis</a>
+        </div>`;
+    }
+ 
     async function carregarFavoritos() {
       const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      const container = document.getElementById('lista-favoritos');
  
-      if (favoritos.length === 0) {
-        container.innerHTML = `
-          <div class="col-12 vazio">
-            <i class="bi bi-heart"></i>
-            <p>Você ainda não tem imóveis favoritos.</p>
-            <a href="category.html" class="btn btn-outline-secondary mt-2">Ver imóveis</a>
-          </div>`;
-        return;
-      }
+      if (favoritos.length === 0) { mostrarVazio(); return; }
  
       const { data, error } = await sb.from('imoveis').select('*').in('id', favoritos);
  
-      if (error || !data || data.length === 0) {
-        container.innerHTML = `
-          <div class="col-12 vazio">
-            <i class="bi bi-heart"></i>
-            <p>Nenhum favorito encontrado.</p>
-            <a href="category.html" class="btn btn-outline-secondary mt-2">Ver imóveis</a>
-          </div>`;
-        return;
-      }
+      if (error || !data || data.length === 0) { mostrarVazio(); return; }
  
-      container.innerHTML = data.map(imovel => {
+      const cont = document.getElementById('contador');
+      cont.style.display = 'block';
+      cont.innerHTML = `Você tem <strong>${data.length}</strong> imóvel(is) favorito(s)`;
+ 
+      document.getElementById('lista-favoritos').innerHTML = data.map(imovel => {
         const img = imovel.imagens && imovel.imagens.length > 0
           ? imovel.imagens[0]
           : 'assets/img/sem-foto.jpg';
  
         return `
-          <div class="col-lg-4 col-md-6" id="card-${imovel.id}">
+          <div class="col-lg-4 col-md-6" id="card-${imovel.id}" data-aos="fade-up">
             <div class="card-imovel">
               <div class="card-img-wrap">
                 <img src="${img}" alt="${imovel.titulo}" loading="lazy">
+                <span class="badge-status">${imovel.status || ''}</span>
               </div>
               <div class="card-body-imovel">
                 <h4><a href="blog-details.html?id=${imovel.id}">${imovel.titulo}</a></h4>
-                <p style="font-size:13px; color:#888;"><i class="bi bi-geo-alt me-1"></i>${imovel.cidade}</p>
+                <p class="card-cidade"><i class="bi bi-geo-alt me-1"></i>${imovel.cidade}</p>
+                <div class="card-specs">
+                  ${imovel.dorms ? `<span><i class="bi bi-door-closed"></i> ${imovel.dorms} dorms</span>` : ''}
+                  ${imovel.vaga ? `<span><i class="bi bi-car-front"></i> ${imovel.vaga} vaga${imovel.vaga > 1 ? 's' : ''}</span>` : ''}
+                  ${imovel.area ? `<span><i class="bi bi-aspect-ratio"></i> ${imovel.area} m²</span>` : ''}
+                </div>
                 <div class="card-preco">${formatarPreco(imovel.preco)}</div>
-                <button class="btn-remover" onclick="remover('${imovel.id}')">
-                  <i class="bi bi-heart-break me-1"></i> Remover dos favoritos
-                </button>
+                <div class="card-acoes">
+                  <a href="blog-details.html?id=${imovel.id}" class="btn-detalhe">Ver detalhes</a>
+                  <button class="btn-remover" onclick="remover('${imovel.id}')">
+                    <i class="bi bi-heart-break"></i> Remover
+                  </button>
+                </div>
               </div>
             </div>
           </div>`;
       }).join('');
+ 
+      if (window.AOS) AOS.refresh();
     }
  
     function remover(id) {
       let lista = JSON.parse(localStorage.getItem('favoritos')) || [];
-      lista = lista.filter(i => i !== id);
+      lista = lista.filter(i => String(i) !== String(id));
       localStorage.setItem('favoritos', JSON.stringify(lista));
-      const card = document.getElementById('card-' + id);
-      if (card) card.remove();
  
-      if (document.querySelectorAll('[id^="card-"]').length === 0) {
-        document.getElementById('lista-favoritos').innerHTML = `
-          <div class="col-12 vazio">
-            <i class="bi bi-heart"></i>
-            <p>Você não tem mais imóveis favoritos.</p>
-            <a href="category.html" class="btn btn-outline-secondary mt-2">Ver imóveis</a>
-          </div>`;
-      }
+      const card = document.getElementById('card-' + id);
+      if (card) card.style.transition = 'opacity 0.3s';
+      if (card) { card.style.opacity = '0'; setTimeout(() => card.remove(), 300); }
+ 
+      setTimeout(() => {
+        const restantes = document.querySelectorAll('[id^="card-"]').length;
+        if (restantes === 0) mostrarVazio();
+        else {
+          const cont = document.getElementById('contador');
+          cont.innerHTML = `Você tem <strong>${restantes}</strong> imóvel(is) favorito(s)`;
+        }
+      }, 350);
     }
  
     carregarFavoritos();
