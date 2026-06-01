@@ -2,175 +2,600 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Admin - Cadastrar Imóvel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Cadastrar Imóvel | Choice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #b8975a;
+      --dark: #1a1a1a;
+      --bg: #f5f0e8;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #888;
+      --border: #e0d9ce;
+      --success: #27ae60;
+      --error: #c0392b;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .admin-header {
+      background: var(--dark);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-header .brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 18px;
+      letter-spacing: 0.03em;
+    }
+
+    .admin-header .brand span {
+      color: rgba(255,255,255,0.5);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 12px;
+    }
+
+    .btn-sair {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      padding: 7px 16px;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sair:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+    /* LAYOUT */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .page-title {
+      margin-bottom: 32px;
+    }
+    .page-title h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--dark);
+    }
+    .page-title p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    /* CARD SEÇÃO */
+    .section-card {
+      background: var(--card);
+      border-radius: 2px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      border-top: 3px solid var(--gold);
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* GRID CAMPOS */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; }
+
+    @media (max-width: 640px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* CAMPOS */
+    .field { display: flex; flex-direction: column; }
+
+    .field label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #faf8f5;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,151,90,0.1);
+      background: white;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* CHECKBOXES */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: #faf8f5;
+    }
+
+    .check-item:hover { border-color: var(--gold); background: #fffdf8; }
+
+    .check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-item span {
+      font-size: 13px;
+      color: var(--text);
+      user-select: none;
+    }
+
+    /* UPLOAD */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 2px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #faf8f5;
+    }
+
+    .upload-area:hover { border-color: var(--gold); background: #fffdf8; }
+
+    .upload-area input[type="file"] { display: none; }
+
+    .upload-area .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .upload-area p { font-size: 14px; color: var(--muted); }
+    .upload-area strong { color: var(--gold); }
+
+    #preview-imagens {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    #preview-imagens img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+    }
+
+    /* PROGRESSO UPLOAD */
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 12px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar .fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #d4b578);
+      border-radius: 2px;
+      transition: width 0.3s;
+      width: 0%;
+    }
+
+    /* BOTÃO SUBMIT */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover { background: #333; }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* NOTIFICAÇÕES */
+    .notif {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      padding: 14px 20px;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 999;
+      transform: translateX(120%);
+      transition: transform 0.3s;
+      max-width: 320px;
+    }
+
+    .notif.visible { transform: translateX(0); }
+    .notif.ok { background: var(--success); color: white; }
+    .notif.err { background: var(--error); color: white; }
+  </style>
 </head>
 <body>
 
-<h2>Painel - Cadastrar Imóvel</h2>
+  <header class="admin-header">
+    <div class="brand">Choice <span>Painel do Corretor</span></div>
+    <button class="btn-sair" onclick="sair()">Sair</button>
+  </header>
 
-<input id="idImovel" placeholder="ID do imóvel (Ex: IMOVEL-001)"><br>
-<input id="titulo" placeholder="Título"><br>
-<input id="cidade" placeholder="Cidade"><br>
-<input id="tipo" placeholder="Tipo (casa, apartamento...)"><br>
+  <div class="container">
+    <div class="page-title">
+      <h1>Cadastrar Imóvel</h1>
+      <p>Preencha as informações abaixo. O imóvel aparecerá no site automaticamente.</p>
+    </div>
 
-<select id="status">
-  <option value="aluguel">Aluguel</option>
-  <option value="breve lancamento">Breve lançamento</option>
-  <option value="em obras">Em Obras</option>        
-  <option value="lancamento">Lançamento</option>        
-  <option value="locacao">Locação</option>        
-  <option value="pronto para morar">Pronto para Morar</option>        
-  <option value="venda">Venda</option>
-</select><br>
+    <!-- INFORMAÇÕES BÁSICAS -->
+    <div class="section-card">
+      <div class="section-title">Informações Básicas</div>
+      <div style="display:grid; gap:20px;">
+        <div class="grid-2">
+          <div class="field">
+            <label>Título do Imóvel *</label>
+            <input type="text" id="titulo" placeholder="Ex: Apartamento moderno no centro">
+          </div>
+          <div class="field">
+            <label>Cidade *</label>
+            <select id="cidade">
+              <option value="">Selecione...</option>
+              <option value="Barueri">Barueri</option>
+              <option value="Cajamar">Cajamar</option>
+              <option value="Cotia">Cotia</option>
+              <option value="Jandira">Jandira</option>
+              <option value="Itapevi">Itapevi</option>
+              <option value="Santana de Parnaíba">Santana de Parnaíba</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Tipo *</label>
+            <select id="tipo">
+              <option value="">Selecione...</option>
+              <option value="apartamento">Apartamento</option>
+              <option value="casa">Casa</option>
+              <option value="terreno">Terreno</option>
+              <option value="comercial">Comercial</option>
+              <option value="studio">Studio</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Status *</label>
+            <select id="status">
+              <option value="venda">Venda</option>
+              <option value="aluguel">Aluguel</option>
+              <option value="locacao">Locação</option>
+              <option value="lancamento">Lançamento</option>
+              <option value="breve lancamento">Breve Lançamento</option>
+              <option value="em obras">Em Obras</option>
+              <option value="pronto para morar">Pronto para Morar</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Descrição</label>
+          <textarea id="descricao" placeholder="Descreva o imóvel com detalhes..."></textarea>
+        </div>
+      </div>
+    </div>
 
-<input id="preco" type="number" placeholder="Preço"><br>
-<input id="dorms" type="number" placeholder="Dorms"><br>
-<input id="vaga" type="number" placeholder="Vagas"><br>
-<input id="area" type="number" placeholder="Área"><br>
-<textarea id="descricao" placeholder="Descrição"></textarea><br><br>
+    <!-- VALORES E DETALHES -->
+    <div class="section-card">
+      <div class="section-title">Valores e Detalhes</div>
+      <div class="grid-4">
+        <div class="field">
+          <label>Preço (R$) *</label>
+          <input type="number" id="preco" placeholder="350000">
+        </div>
+        <div class="field">
+          <label>Dormitórios</label>
+          <input type="number" id="dorms" placeholder="2" min="0">
+        </div>
+        <div class="field">
+          <label>Vagas</label>
+          <input type="number" id="vaga" placeholder="1" min="0">
+        </div>
+        <div class="field">
+          <label>Área (m²)</label>
+          <input type="number" id="area" placeholder="75" min="0">
+        </div>
+      </div>
+    </div>
 
-<h3>Características</h3>
-<label><input type="checkbox value="Academia"> Academia</label><br>
-<label><input type="checkbox value="Aquecimento a gás"> Aquecimento a gás</label><br>
-<label><input type="checkbox value="Área de serviço"> Área de serviço</label><br>
-<label><input type="checkbox value=""> Beach Tennis</label><br>
-<label><input type="checkbox value="Bicicletário"> Bicicletário</label><br>
-<label><input type="checkbox value="Brinquedoteca"> Brinquedoteca</label><br>
-<label><input type="checkbox value="Churrasqueira"> Churrasqueira</label><br>
-<label><input type="checkbox value="Cinema"> Cinema</label><br>
-<label><input type="checkbox value="Coworking"> Coworking</label><br>
-<label><input type="checkbox value="Cozinha Comunitária"> Cozinha Comunitária</label><br>
-<label><input type="checkbox value="Deck"> Deck</label><br>
-<label><input type="checkbox value="Espaço Beleza</"> Espaço Beleza</label><br>
-<label><input type="checkbox value="Espaço Massagem"> Espaço Massagem</label><br>
-<label><input type="checkbox value="Espaço Pet"> Espaço Pet</label><br>
-<label><input type="checkbox value="Elevadores"> Elevadores</label><br>
-<label><input type="checkbox value="Horta"> Horta</label><br>
-<label><input type="checkbox value="Lavanderia Coletiva"> Lavanderia Coletiva</label><br>
-<label><input type="checkbox value="Mini Golf"> Mini Golf</label><br>
-<label><input type="checkbox value="Mini Quadra"> Mini Quadra</label><br>
-<label><input type="checkbox value="Pet Place"> Pet Place</label><br>
-<label><input type="checkbox value="Piscina"> Piscina</label><br>
-<label><input type="checkbox value="Playground"> Playground</label><br>
-<label><input type="checkbox value="Praça"> Praça</label><br>
-<label><input type="checkbox value="Prainha"> Prainha</label><br>
-<label><input type="checkbox value="Portaria 24h"> Portaria 24h</label><br>
-<label><input type="checkbox value="Quadras"> Quadras</label><br>
-<label><input type="checkbox value="Redeiro"> Redeiro</label><br>
-<label><input type="checkbox value="Sala de Dança"> Sala de Dança</label><br>
-<label><input type="checkbox value="Sala de Reunião"> Sala de Reunião</label><br>
-<label><input type="checkbox value="Salão de Festas"> Salão de Festas</label><br>
-<label><input type="checkbox value="Salão de Jogos"> Salão de Jogos</label><br>
-<label><input type="checkbox value="Sistema de câmeras"> Sistema de câmeras</label><br>
-<label><input type="checkbox value="Salão Gourmet"> Salão Gourmet</label><br>
-<label><input type="checkbox value="Sauna"> Sauna</label><br>
-<label><input type="checkbox value="Solário"> Solário</label><br>
-<label><input type="checkbox value="Sport Bar"> Sport Bar</label><br>
+    <!-- CARACTERÍSTICAS -->
+    <div class="section-card">
+      <div class="section-title">Características</div>
+      <div class="checkbox-grid">
+        <label class="check-item"><input type="checkbox" value="Academia"><span>Academia</span></label>
+        <label class="check-item"><input type="checkbox" value="Aquecimento a gás"><span>Aquecimento a gás</span></label>
+        <label class="check-item"><input type="checkbox" value="Área de serviço"><span>Área de serviço</span></label>
+        <label class="check-item"><input type="checkbox" value="Beach Tennis"><span>Beach Tennis</span></label>
+        <label class="check-item"><input type="checkbox" value="Bicicletário"><span>Bicicletário</span></label>
+        <label class="check-item"><input type="checkbox" value="Brinquedoteca"><span>Brinquedoteca</span></label>
+        <label class="check-item"><input type="checkbox" value="Churrasqueira"><span>Churrasqueira</span></label>
+        <label class="check-item"><input type="checkbox" value="Cinema"><span>Cinema</span></label>
+        <label class="check-item"><input type="checkbox" value="Coworking"><span>Coworking</span></label>
+        <label class="check-item"><input type="checkbox" value="Cozinha Comunitária"><span>Cozinha Comunitária</span></label>
+        <label class="check-item"><input type="checkbox" value="Deck"><span>Deck</span></label>
+        <label class="check-item"><input type="checkbox" value="Espaço Beleza"><span>Espaço Beleza</span></label>
+        <label class="check-item"><input type="checkbox" value="Espaço Massagem"><span>Espaço Massagem</span></label>
+        <label class="check-item"><input type="checkbox" value="Espaço Pet"><span>Espaço Pet</span></label>
+        <label class="check-item"><input type="checkbox" value="Elevadores"><span>Elevadores</span></label>
+        <label class="check-item"><input type="checkbox" value="Horta"><span>Horta</span></label>
+        <label class="check-item"><input type="checkbox" value="Lavanderia Coletiva"><span>Lavanderia Coletiva</span></label>
+        <label class="check-item"><input type="checkbox" value="Mini Golf"><span>Mini Golf</span></label>
+        <label class="check-item"><input type="checkbox" value="Mini Quadra"><span>Mini Quadra</span></label>
+        <label class="check-item"><input type="checkbox" value="Pet Place"><span>Pet Place</span></label>
+        <label class="check-item"><input type="checkbox" value="Piscina"><span>Piscina</span></label>
+        <label class="check-item"><input type="checkbox" value="Playground"><span>Playground</span></label>
+        <label class="check-item"><input type="checkbox" value="Praça"><span>Praça</span></label>
+        <label class="check-item"><input type="checkbox" value="Prainha"><span>Prainha</span></label>
+        <label class="check-item"><input type="checkbox" value="Portaria 24h"><span>Portaria 24h</span></label>
+        <label class="check-item"><input type="checkbox" value="Quadras"><span>Quadras</span></label>
+        <label class="check-item"><input type="checkbox" value="Redeiro"><span>Redeiro</span></label>
+        <label class="check-item"><input type="checkbox" value="Sala de Dança"><span>Sala de Dança</span></label>
+        <label class="check-item"><input type="checkbox" value="Sala de Reunião"><span>Sala de Reunião</span></label>
+        <label class="check-item"><input type="checkbox" value="Salão de Festas"><span>Salão de Festas</span></label>
+        <label class="check-item"><input type="checkbox" value="Salão de Jogos"><span>Salão de Jogos</span></label>
+        <label class="check-item"><input type="checkbox" value="Salão Gourmet"><span>Salão Gourmet</span></label>
+        <label class="check-item"><input type="checkbox" value="Sauna"><span>Sauna</span></label>
+        <label class="check-item"><input type="checkbox" value="Sistema de câmeras"><span>Sistema de câmeras</span></label>
+        <label class="check-item"><input type="checkbox" value="Solário"><span>Solário</span></label>
+        <label class="check-item"><input type="checkbox" value="Sport Bar"><span>Sport Bar</span></label>
+      </div>
+    </div>
 
-<label>Selecionar imagens:</label><br>
-<input type="file" id="imagens" multiple accept="image/*"><br><br>
+    <!-- IMAGENS -->
+    <div class="section-card">
+      <div class="section-title">Fotos do Imóvel</div>
+      <div class="upload-area" onclick="document.getElementById('imagens').click()">
+        <input type="file" id="imagens" multiple accept="image/*" onchange="previewImagens(this)">
+        <div class="icon">📷</div>
+        <p><strong>Clique para selecionar</strong> ou arraste as fotos aqui</p>
+        <p style="font-size:12px; margin-top:6px;">JPG, PNG, WEBP — máximo 5MB por foto</p>
+      </div>
+      <div id="preview-imagens"></div>
+      <div class="progress-bar" id="progressBar">
+        <div class="fill" id="progressFill"></div>
+      </div>
+    </div>
 
-<button onclick="salvar(if (!auth.currentUser) {
-  alert("Você precisa estar logado!");
-  return;
-})">Cadastrar</button>
+    <button class="btn-submit" id="btnSalvar" onclick="salvar()">
+      Publicar Imóvel no Site
+    </button>
+  </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+  <div class="notif" id="notif"></div>
 
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyBL_4orwlOIhGsggtVrZHS49JNhFTE0HMo",
-  authDomain: "imobiliaria-site-d0849.firebaseapp.com",
-  projectId: "imobiliaria-site-d0849",
-  storageBucket: "imobiliaria-site-d0849.appspot.com",
-  messagingSenderId: "965962893487",
-  appId: "1:965962893487:web:1ed40e322fecd603526c5a",
-  measurementId: "G-PZM7LW2HT2"
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ============================================================
+    // ⚠️ SUBSTITUA PELOS SEUS DADOS DO SUPABASE
+    const SUPABASE_URL = 'https://xmuccqvtjyrhjlqgmwlm.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_C9g6VFR-DOdTgnPsEHbK9A_d7Il5N96';
+    // ============================================================
 
-};
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// INICIAR
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-// PROTEÇÃO
-onAuthStateChanged(auth, (user) => {
-  if (!user) window.location.href = "login.html";
-});
-
-// FUNÇÃO SALVAR
-window.salvar = async function() {
-  try {
-
-    if (!auth.currentUser) {
-      alert("Você precisa estar logado!");
-      return;
-    }
-    
-    const idImovel = document.getElementById("idImovel").value.trim();
-    const titulo = document.getElementById("titulo").value.trim();
-    const cidade = document.getElementById("cidade").value.trim();
-    const tipo = document.getElementById("tipo").value.trim();
-    const status = document.getElementById("status").value;
-    const preco = Number(document.getElementById("preco").value);
-    const dorms = Number(document.getElementById("dorms").value);
-    const vaga = Number(document.getElementById("vaga").value);
-    const area = Number(document.getElementById("area").value);
-    const descricao = document.getElementById("descricao").value.trim();
-
-    if(!idImovel || !titulo || !cidade) {
-      alert("Preencha todos os campos obrigatórios!");
-      return;
-    }
-
-    // CARACTERÍSTICAS
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    const caracteristicas = Array.from(checkboxes).map(cb => cb.value);
-
-    // IMAGENS
-    const files = document.getElementById("imagens").files;
-    const urls = [];
-    for (let file of files) {
-      const storageRef = ref(storage, "imoveis/" + Date.now() + "_" + file.name);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      urls.push(url);
-    }
-
-    // SALVAR NO FIRESTORE
-    await setDoc(doc(db, "imoveis", idImovel), {
-      id: idImovel,
-      titulo,
-      cidade,
-      regiao: cidade.toLowerCase(),
-      tipo: tipo.toLowerCase(),
-      status,
-      preco,
-      dorms,
-      vaga,
-      area,
-      descricao,
-      imagens: urls,
-      caracteristicas
+    // PROTEÇÃO: verifica login
+    sb.auth.getSession().then(({ data }) => {
+      if (!data.session) window.location.href = 'login.html';
     });
 
-    alert("Imóvel cadastrado com sucesso!");
-  } 
-    catch (error) {
-  console.error("Erro completo:", error);
-  alert("Erro: " + error.message);
-}
-  }
-}
-</script>
+    async function sair() {
+      await sb.auth.signOut();
+      window.location.href = 'login.html';
+    }
 
+    // PREVIEW DAS IMAGENS
+    function previewImagens(input) {
+      const preview = document.getElementById('preview-imagens');
+      preview.innerHTML = '';
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function salvar() {
+      const titulo = document.getElementById('titulo').value.trim();
+      const cidade = document.getElementById('cidade').value;
+      const tipo = document.getElementById('tipo').value;
+      const status = document.getElementById('status').value;
+      const preco = Number(document.getElementById('preco').value);
+      const dorms = Number(document.getElementById('dorms').value) || 0;
+      const vaga = Number(document.getElementById('vaga').value) || 0;
+      const area = Number(document.getElementById('area').value) || 0;
+      const descricao = document.getElementById('descricao').value.trim();
+
+      if (!titulo || !cidade || !tipo || !preco) {
+        notif('Preencha: título, cidade, tipo e preço.', 'err');
+        return;
+      }
+
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { window.location.href = 'login.html'; return; }
+
+      const btn = document.getElementById('btnSalvar');
+      btn.disabled = true;
+      btn.textContent = 'Publicando...';
+
+      // CARACTERÍSTICAS
+      const caracteristicas = Array.from(
+        document.querySelectorAll('input[type="checkbox"]:checked')
+      ).map(cb => cb.value);
+
+      // UPLOAD IMAGENS
+      const files = document.getElementById('imagens').files;
+      const urls = [];
+
+      if (files.length > 0) {
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        progressBar.style.display = 'block';
+
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const ext = file.name.split('.').pop();
+          const path = `imoveis/${Date.now()}_${i}.${ext}`;
+
+          const { error: uploadError } = await sb.storage
+            .from('imoveis-fotos')
+            .upload(path, file, { upsert: false });
+
+          if (uploadError) {
+            notif('Erro ao fazer upload das imagens: ' + uploadError.message, 'err');
+            btn.disabled = false;
+            btn.textContent = 'Publicar Imóvel no Site';
+            return;
+          }
+
+          const { data: urlData } = sb.storage
+            .from('imoveis-fotos')
+            .getPublicUrl(path);
+
+          urls.push(urlData.publicUrl);
+
+          // atualiza barra
+          progressFill.style.width = `${Math.round(((i + 1) / files.length) * 100)}%`;
+        }
+      }
+
+      // SALVAR NO BANCO
+      const { error } = await sb.from('imoveis').insert({
+        titulo,
+        cidade,
+        regiao: cidade.toLowerCase(),
+        tipo: tipo.toLowerCase(),
+        status,
+        preco,
+        dorms,
+        vaga,
+        area,
+        descricao,
+        imagens: urls,
+        caracteristicas
+      });
+
+      btn.disabled = false;
+      btn.textContent = 'Publicar Imóvel no Site';
+
+      if (error) {
+        notif('Erro ao salvar: ' + error.message, 'err');
+        return;
+      }
+
+      notif('Imóvel publicado com sucesso! 🎉', 'ok');
+      limparFormulario();
+    }
+
+    function limparFormulario() {
+      ['titulo', 'descricao', 'preco', 'dorms', 'vaga', 'area'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('cidade').value = '';
+      document.getElementById('tipo').value = '';
+      document.getElementById('status').value = 'venda';
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.getElementById('preview-imagens').innerHTML = '';
+      document.getElementById('imagens').value = '';
+      document.getElementById('progressBar').style.display = 'none';
+      document.getElementById('progressFill').style.width = '0%';
+    }
+
+    function notif(msg, tipo) {
+      const el = document.getElementById('notif');
+      el.textContent = msg;
+      el.className = `notif ${tipo} visible`;
+      setTimeout(() => el.classList.remove('visible'), 4000);
+    }
+  </script>
 </body>
 </html>
-
-
