@@ -234,6 +234,7 @@
               <li><a href="category.html?cidade=Santana de Parnaíba">Santana de Parnaíba</a></li>
             </ul>
           </li>
+          <li><a href="favoritos.html">Favoritos <span id="contador-fav-menu"></span></a></li>
           <li><a href="author-profile.html">Corretores</a></li>
           <li><a href="contact.html">Contato</a></li>
         </ul>
@@ -367,6 +368,13 @@
 
     const { createClient } = supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Contador favoritos no menu
+    const _favMenu = JSON.parse(localStorage.getItem('favoritos')) || [];
+    if (_favMenu.length > 0) {
+      const el = document.getElementById('contador-fav-menu');
+      if (el) el.textContent = `(${_favMenu.length})`;
+    }
 
     let todosImoveis = [];
     let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
